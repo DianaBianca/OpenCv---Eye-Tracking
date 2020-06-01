@@ -1,5 +1,6 @@
 import pygame
 import ctypes
+import time
  
 # Define some colors
 BLACK = (0, 0, 0)
@@ -24,10 +25,8 @@ screen = pygame.display.set_mode(size)
 x = int(sizeX/2)
 y = int(sizeY/2)
 
-inicio = 0
-
-nextX = x - inicio 
-nextY = y - inicio 
+nextX = x  
+nextY = y 
 print(nextX)
 print(nextY)
 
@@ -47,7 +46,8 @@ px = 0
 # como o relógio do pygame trabalha
 # em milissegundos, dividimos por 1000
 # para manter os 100 pixels por segundo
-velocity_x = 0.1
+velocity_x = 0.07
+
 
 # criamos uma instância do relógio
 clock = pygame.time.Clock()
@@ -69,17 +69,26 @@ while done == False:
 
     if event.type == pygame.QUIT:
         break
+    
+    
+    screen.fill(BLACK)
+    
+    pygame.draw.rect(screen, WHITE, [px, py, 40, 40])
+    pygame.display.flip()
+    if(px == 0 and py == 0):
+        time.sleep(5)
 
     px += velocity_x * dt
+    print(int(px))
+        
+    if(int(px) >= (nextX -3) and int(px) <= (nextX) ):
+        print('metade')
+        time.sleep(5)
+        
+        
 
-    screen.fill(BLACK)
 
-    if(px == nextX):
-        print(metade)
-
-    pygame.draw.rect(screen, WHITE, [px, py, 40, 40])
-
-    pygame.display.flip()
+    
 
 
     
