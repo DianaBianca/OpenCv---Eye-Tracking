@@ -24,7 +24,7 @@ screen = pygame.display.set_mode(size)
 x = int(sizeX/2)
 y = int(sizeY/2)
 
-inicio = 25
+inicio = 0
 
 nextX = x - inicio 
 nextY = y - inicio 
@@ -74,9 +74,17 @@ while done == False:
 
     screen.fill(BLACK)
 
-    pygame.draw.rect(screen, WHITE, [px, py, 50, 50])
+    if(px == nextX):
+        print(metade)
+
+    pygame.draw.rect(screen, WHITE, [px, py, 40, 40])
 
     pygame.display.flip()
+
+
+    
+
+    
 
 # Close the window and quit.
 pygame.quit()
