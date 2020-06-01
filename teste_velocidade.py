@@ -43,7 +43,7 @@ clock = pygame.time.Clock()
 i = 1
 py = 0
 px = 0
-
+direita = True
 # como o relógio do pygame trabalha
 # em milissegundos, dividimos por 1000
 # para manter os 100 pixels por segundo
@@ -71,7 +71,7 @@ while done == False:
     if event.type == pygame.QUIT:
         break
     
-    direita = True
+    
     screen.fill(BLACK)
     
     pygame.draw.rect(screen, WHITE, [px, py, 40, 40])
@@ -81,22 +81,26 @@ while done == False:
         #time.sleep(5)
         print('inicio')
         
-    if(int(px) != (nextX * 2)- 40):
+    if(direita):
         px += velocity_x * dt
         print(int(px))
+        
     else:
         py += velocity_x * dt
         
     
     if(int(px) >= (nextX -3) and int(px) <= (nextX)):
         print('metade')
-        #time.sleep(5)        
+        #time.sleep(5)
+        
+    if(int(px) >= (nextX * 2)- 40):
+        print('fim primeira linha')
+        direita = False
 
     if(py >= y -3 and py <= y):   
         #time.sleep(5)
         #py = y
         print('meio')
-        
         #time.sleep(5)
         
     
