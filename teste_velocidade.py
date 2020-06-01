@@ -81,8 +81,7 @@ while done == False:
         print('inicio')
         
     if(int(px) != (nextX * 2)-40): 
-        direita  = True
-        #esquerda = False
+        direita = True
         
     if(direita):
         px += velocity_x * dt
@@ -90,10 +89,7 @@ while done == False:
     else:
         #time.sleep(5)
         py += velocity_x * dt
-
-    #if(esquerda):
-       # px -= velocity_x * dt
-        
+        px -= velocity_x * dt
 
     
     if(int(px) >= (nextX -3) and int(px) <= (nextX) ):
@@ -102,10 +98,9 @@ while done == False:
 
     if(py >= y -3 and py <= y):   
         time.sleep(5)
-        
+        #py = y
         print('baixo ')
         #time.sleep(5)
-        #esquerda = True
 
     
 
