@@ -28,6 +28,7 @@ y = int(sizeY/2)
 nextX = x  
 nextY = y 
 print(nextX)
+print(nextX * 2)
 print(nextY)
 
 #nome da janela
@@ -75,6 +76,7 @@ while done == False:
     
     pygame.draw.rect(screen, WHITE, [px, py, 40, 40])
     pygame.display.flip()
+    
     if(px == 0 and py == 0):
         time.sleep(5)
 
@@ -84,12 +86,10 @@ while done == False:
     if(int(px) >= (nextX -3) and int(px) <= (nextX) ):
         print('metade')
         time.sleep(5)
-        
-        
 
-
+    if(int(px) >= ((nextX * 2)-25) and int(px) <= (nextX * 2 )):   
+        time.sleep(5)
     
-
 
     
 
