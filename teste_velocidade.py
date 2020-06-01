@@ -51,7 +51,6 @@ velocity_x = 0.07
 
 
 # criamos uma instância do relógio
-clock = pygame.time.Clock()
 
 # -------- Main Program Loop -----------
 
@@ -78,17 +77,36 @@ while done == False:
     pygame.display.flip()
     
     if(px == 0 and py == 0):
-        time.sleep(5)
-
-    px += velocity_x * dt
-    print(int(px))
+        #time.sleep(5)
+        print('inicio')
         
+    if(int(px) != (nextX * 2)-40): 
+        direita  = True
+        #esquerda = False
+        
+    if(direita):
+        px += velocity_x * dt
+        print(int(px))
+    else:
+        #time.sleep(5)
+        py += velocity_x * dt
+
+    #if(esquerda):
+       # px -= velocity_x * dt
+        
+
+    
     if(int(px) >= (nextX -3) and int(px) <= (nextX) ):
         print('metade')
-        time.sleep(5)
+        #time.sleep(5)
 
-    if(int(px) >= ((nextX * 2)-25) and int(px) <= (nextX * 2 )):   
+    if(py >= y -3 and py <= y):   
         time.sleep(5)
+        
+        print('baixo ')
+        #time.sleep(5)
+        #esquerda = True
+
     
 
     
