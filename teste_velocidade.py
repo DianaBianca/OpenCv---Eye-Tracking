@@ -77,3 +77,7 @@ while done == False:
     pygame.draw.rect(screen, WHITE, [px, py, 50, 50])
 
     pygame.display.flip()
+
+# Close the window and quit.
+pygame.quit()
+
