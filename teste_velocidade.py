@@ -92,7 +92,7 @@ while done == False:
     
     if(int(px) >= (nextX -3) and int(px) <= (nextX)):
         print('metade')
-        #time.sleep(5)
+        time.sleep(5)
         
     if(int(px) >= (nextX * 2)- 40):
         #time.sleep(5)
@@ -104,13 +104,11 @@ while done == False:
         py = y
         #print('meio')
         voltar = True
+    
         #time.sleep(5)
+    
         
-    
-
-    
-
-    
+        
 
 # Close the window and quit.
 pygame.quit()
