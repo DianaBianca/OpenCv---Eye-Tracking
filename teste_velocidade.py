@@ -5,8 +5,6 @@ import time
 # Define some colors
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
-GREEN = (0, 255, 0)
-RED = (255, 0, 0)
  
 pygame.init()
  
@@ -44,6 +42,7 @@ i = 1
 py = 0
 px = 0
 direita = True
+voltar = False
 # como o relógio do pygame trabalha
 # em milissegundos, dividimos por 1000
 # para manter os 100 pixels por segundo
@@ -71,7 +70,6 @@ while done == False:
     if event.type == pygame.QUIT:
         break
     
-    
     screen.fill(BLACK)
     
     pygame.draw.rect(screen, WHITE, [px, py, 40, 40])
@@ -85,6 +83,9 @@ while done == False:
         px += velocity_x * dt
         print(int(px))
         
+    elif(voltar):
+        px -= velocity_x * dt
+        py -= velocity_x * dt
     else:
         py += velocity_x * dt
         
@@ -94,13 +95,15 @@ while done == False:
         #time.sleep(5)
         
     if(int(px) >= (nextX * 2)- 40):
+        #time.sleep(5)
         print('fim primeira linha')
         direita = False
 
-    if(py >= y -3 and py <= y):   
-        #time.sleep(5)
-        #py = y
+    if(py >= y - 5 and py <= y):   
+        time.sleep(5)
+        py = y
         print('meio')
+        voltar = True
         #time.sleep(5)
         
     
