@@ -46,7 +46,7 @@ voltar = False
 # como o relógio do pygame trabalha
 # em milissegundos, dividimos por 1000
 # para manter os 100 pixels por segundo
-velocity_x = 0.05
+velocity = 0.05
 
 
 # criamos uma instância do relógio
@@ -80,14 +80,14 @@ while done == False:
         print('inicio')
         
     if(direita):
-        px += velocity_x * dt
+        px += velocity * dt
         print(int(px))
         
     elif(voltar):
-        px -= velocity_x * dt
-        py -= velocity_x * dt
+        px -= velocity * dt
+        
     else:
-        py += velocity_x * dt
+        py += velocity * dt
         
     
     if(int(px) >= (nextX -3) and int(px) <= (nextX)):
@@ -96,13 +96,13 @@ while done == False:
         
     if(int(px) >= (nextX * 2)- 40):
         #time.sleep(5)
-        print('fim primeira linha')
+        #print('fim primeira linha')
         direita = False
 
-    if(py >= y - 5 and py <= y):   
-        time.sleep(5)
+    if(py >= y - 2 and py <= y ):   
+        #time.sleep(5)
         py = y
-        print('meio')
+        #print('meio')
         voltar = True
         #time.sleep(5)
         
