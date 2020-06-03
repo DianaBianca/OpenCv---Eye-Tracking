@@ -75,9 +75,9 @@ while done == False:
     pygame.draw.rect(screen, WHITE, [px, py, 40, 40])
     pygame.display.flip()
     
-    if(px >= 0 and px <= 3 ):
+    if(int(px) >= 0 and int(px) <= 3 ):
         #time.sleep(5)
-        print('inicio')
+        
         i += 1
         print('I :' , i)
         if(i > 1):
@@ -101,16 +101,16 @@ while done == False:
         
     if(int(px) >= (nextX * 2)- 40):
         #time.sleep(5)
-        #print('fim primeira linha')
         direita = False
 
-    if(py >= y - 2 and py <= y ):   
+    if(int(py) >= y - 2 and int(py) <= y ):   
         #time.sleep(5)
         py = y
         #print('meio')
         voltar = True
     
-        #time.sleep(5)
+    if(int(py) >= x  and int(py)<= x + 5):
+        direita = True
     
         
         
