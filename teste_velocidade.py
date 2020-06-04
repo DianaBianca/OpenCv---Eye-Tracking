@@ -79,11 +79,9 @@ while done == False:
         #time.sleep(5)
         
         i += 1
-        print('I :' , i)
         if(i > 1):
             voltar = False
             
-        
     if(direita):
         px += velocity * dt
         print(int(px))
@@ -97,11 +95,12 @@ while done == False:
     
     if(int(px) >= (nextX -3) and int(px) <= (nextX)):
         print('metade')
-        #time.sleep(5)
+        time.sleep(5)
         
-    if(int(px) >= (nextX * 2)- 40):
-        #time.sleep(5)
+   if(int(px) >= int(nextX * 2)- 40 and int(py) == 0):
+        time.sleep(5)
         direita = False
+        
 
     if(int(py) >= y - 2 and int(py) <= y ):   
         #time.sleep(5)
@@ -111,7 +110,7 @@ while done == False:
     
     if(int(py) >= x  and int(py)<= x + 5):
         direita = True
-    
+        
         
         
 
