@@ -27,11 +27,10 @@ screen = pygame.display.set_mode(size)
 x = int(sizeX/2)
 y = int(sizeY/2)
 
-nextX = x  
-nextY = y 
-print(nextX)
-print(nextX * 2)
-print(nextY)
+
+print(x)
+print(x * 2)
+print(y)
 
 #nome da janela
 pygame.display.set_caption("Calibração")
@@ -79,8 +78,8 @@ while done == False:
     pygame.draw.rect(screen, WHITE, [px, py, 40, 40])
     pygame.display.flip()
     
-    if(int(px) >= 0 and int(px) <= 3 ):
-        #time.sleep(5)
+    if(int(px) >= 0 and int(px) <= 1 ):
+        time.sleep(3)
         
         i += 1
         if(i > 1):
@@ -97,20 +96,21 @@ while done == False:
         py += velocity * dt
         
     
-    if(int(px) >= (nextX -3) and int(px) <= (nextX)):
+    if(int(px) >= (x - 10) and int(px) <= (x)):
         print('metade')
         time.sleep(5)
         
-    if(int(px) >= int(nextX * 2)- 40 and int(py) == 0):
-        #time.sleep(5)
+    if(int(px) >= int(x * 2)- 40 and int(py) == 0):
+        time.sleep(3)
         direita = False
         
 
-    if(int(py) == nextY and (px) >= int(nextX * 2)- 40):   
-        #time.sleep(5)
-        py = y
+    if(int(py) == y and  ((px) >= int(x * 2)- 100 or (px) <= int(x * 2)- 150 )):   
+        time.sleep(3)
         #print('meio')
+        py = y
         voltar = True
+        
     
     if(int(py) >= x  and int(py)<= x + 5):
         direita = True
