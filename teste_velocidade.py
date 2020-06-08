@@ -77,9 +77,10 @@ while done == False:
     
     pygame.draw.rect(screen, WHITE, [px, py, 40, 40])
     pygame.display.flip()
-    
+    print(int(px))
+    print('Y ------------->',int(py))
     if(int(px) >= 0 and int(px) <= 1 ):
-        time.sleep(3)
+        #time.sleep(3)
         
         i += 1
         if(i > 1):
@@ -87,7 +88,7 @@ while done == False:
             
     if(direita):
         px += velocity * dt
-        print(int(px))
+        
         
     elif(voltar):
         px -= velocity * dt
@@ -98,16 +99,18 @@ while done == False:
     
     if(int(px) >= (x - 10) and int(px) <= (x)):
         print('metade')
-        time.sleep(5)
+        #time.sleep(5)
         
     if(int(px) >= int(x * 2)- 40 and int(py) == 0):
-        time.sleep(3)
+        #time.sleep(3)
+        print('----------------->',int(px))
         direita = False
         
 
-    if(int(py) == y and  ((px) >= int(x * 2)- 100 or (px) <= int(x * 2)- 150 )):   
-        time.sleep(3)
-        #print('meio')
+    if( (px) == int(x * 2)- 39  and int(py) == y ):
+        print('PASSEI AQUIIIIIIIIIIIII')
+        #time.sleep(3)
+        
         py = y
         voltar = True
         
