@@ -1,19 +1,23 @@
 import pygame
 import ctypes
 import time
+
+# tela cheia 
+import os 
+os.environ['SDL_VIDEO_CENTERED'] = '1'
+pygame.init()
  
-# Define some colors
+# Define algumas cores colors
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
  
-pygame.init()
  
 # Set the width and height of the screen [width, height]
 user32 = ctypes.windll.user32
 
 #1366 768- tamanho da minha tela
 sizeX = user32.GetSystemMetrics(0)
-sizeY = user32.GetSystemMetrics(1) # tirando um pedaço que ultrapassa a tela
+sizeY = user32.GetSystemMetrics(1) 
 
 size = sizeX,sizeY
 screen = pygame.display.set_mode(size)
@@ -97,12 +101,12 @@ while done == False:
         print('metade')
         time.sleep(5)
         
-   if(int(px) >= int(nextX * 2)- 40 and int(py) == 0):
-        time.sleep(5)
+    if(int(px) >= int(nextX * 2)- 40 and int(py) == 0):
+        #time.sleep(5)
         direita = False
         
 
-    if(int(py) >= y - 2 and int(py) <= y ):   
+    if(int(py) == nextY and (px) >= int(nextX * 2)- 40):   
         #time.sleep(5)
         py = y
         #print('meio')
