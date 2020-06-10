@@ -1,9 +1,9 @@
 import pygame
 import ctypes
 import time
+import os
 
 # tela cheia 
-import os 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 pygame.init()
  
@@ -11,8 +11,7 @@ pygame.init()
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
  
- 
-# Set the width and height of the screen [width, height]
+#Seta a largura e a altura da tela utilizada [width, height](só funciona para windows)
 user32 = ctypes.windll.user32
 
 #1366 768- tamanho da minha tela
@@ -22,13 +21,14 @@ sizeY = user32.GetSystemMetrics(1)
 size = sizeX,sizeY
 screen = pygame.display.set_mode(size)
 
-x = int(sizeX/2)
-y = int(sizeY/2)
+nextx = int(sizeX/2)
+nexty = int(sizeY/2)
 
 
-print(x)
-print(x * 2)
-print(y)
+print(nextx)
+print(nextx * 2)
+print(nexty)
+
 
 #nome da janela
 pygame.display.set_caption("Calibração")
@@ -39,7 +39,7 @@ done = False
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
 
-i = 1
+i = 2
 py = 0
 px = 0
 direita = True
@@ -64,60 +64,50 @@ while done == False:
     screen.fill(BLACK)
     # chamamos o tick do relógio para 30 fps
     # e armazenamos o delta de tempo
-    dt = clock.tick(30)
+    dt = clock.tick(20)
 
-    event = pygame.event.poll()
+    while i != 10 :
 
-    if event.type == pygame.QUIT:
-        break
-    
-    screen.fill(BLACK)
-    
-    pygame.draw.rect(screen, WHITE, [px, py, 40, 40])
-    pygame.display.flip()
-    
-    print(int(px))
-    print('Y ------------->',int(py))
-    
-    if(int(px) >= 0 and int(px) <= 1 ):
-        #time.sleep(3)
+        event = pygame.event.poll()
+
+        if event.type == pygame.QUIT:
+            break
         
-        i += 1
-        if(i > 1):
-            voltar = False
+        screen.fill(BLACK)
+        pygame.draw.rect(screen, WHITE, [px, py, 40, 40])
+        pygame.display.flip()
+        
+        print('                  ')
+        print('                  ')
+        print('X ------------->',int(px))
+        print('Y ------------->',int(py))
+        print('valor de I : ', i)
+        
+        time.sleep(3)
+        
+        if( i < 4 ):            
+            print('primeiro if')
+            px += nextx - 15           
             
-    if(direita):
-        px += velocity * dt
-        
-    elif(voltar):
-        px -= velocity * dt
-        
-    else:
-        py += velocity * dt
-        
-    
-    if(int(px) >= (x - 10) and int(px) <= (x)):
-        print('metade')
-        #time.sleep(5)
-        
-    if(int(px) >= int(x * 2)- 40 and int(py) == 0):
-        #time.sleep(3)
-        print('----------------->',int(px))
-        direita = False
-        
-
-    if( (px) >= int(x * 2) - 38  and int(py) >= y ):
-        print('PASSEI AQUIIIIIIIIIIIII')
-        #time.sleep(3)
-        py = y
-        voltar = True
-        
-    
-    if(int(py) >= x  and int(py)<= x + 5):
-        direita = True
-        
-        
-        
+        elif(i < 7):
+            print('segundo if ***********')
+            if(i == 4):
+                print('i == 4')
+                py += nexty
+               
+            else:
+                px -= nextx
+                         
+        elif(i < 10):
+            print('terceiro if')
+            
+            if(i == 7):
+                py += nexty
+                print('i == 7')
+                
+            else:
+                px += nextx -15
+        i += 1           
 
 # Close the window and quit.
 pygame.quit()
