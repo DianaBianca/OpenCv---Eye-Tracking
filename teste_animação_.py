@@ -94,7 +94,7 @@ while done == False:
                 py += nexty
                
             else:
-                px -= nextx
+                px -= nextx +15
                          
         elif(i < 10):
             print('terceiro if')
