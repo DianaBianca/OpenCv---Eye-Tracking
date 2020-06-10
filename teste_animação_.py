@@ -21,7 +21,7 @@ sizeY = user32.GetSystemMetrics(1)
 size = sizeX,sizeY
 screen = pygame.display.set_mode(size)
 
-nextx = int(sizeX/2)
+nextx = int(sizeX/2) - 20
 nexty = int(sizeY/2)
 
 print(nextx)
@@ -85,7 +85,7 @@ while done == False:
         
         if( i < 4 ):            
             print('primeiro if')
-            px += nextx - 15           
+            px += nextx            
             
         elif(i < 7):
             print('segundo if ***********')
@@ -94,7 +94,7 @@ while done == False:
                 py += nexty
                
             else:
-                px -= nextx +15
+                px -= nextx 
                          
         elif(i < 10):
             print('terceiro if')
@@ -104,7 +104,7 @@ while done == False:
                 print('i == 7')
                 
             else:
-                px += nextx -15
+                px += nextx 
         i += 1           
 
 # Close the window and quit.
