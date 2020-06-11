@@ -94,7 +94,7 @@ while done == False:
             print('terceiro if')
             
             if(i == 7):
-                py += nexty - 40
+                py += nexty - 50
                 print('i == 7')
                 
             else:
