@@ -55,7 +55,7 @@ while done == False:
             done = True  # Flag that we are done so we exit this loop
 
     # Set the screen background
-    screen.fill(BLACK)
+    #screen.fill(BLACK)
     # chamamos o tick do relógio para 30 fps
     # e armazenamos o delta de tempo
     dt = clock.tick(20)
@@ -66,8 +66,8 @@ while done == False:
 
         if event.type == pygame.QUIT:
             break
-        
-        pygame.draw.rect(screen, WHITE, [px, py, 50, 50])#
+        screen.fill(BLACK)
+        pygame.draw.rect(screen, WHITE, [px, py, 40, 40])#
         pygame.display.flip()
         
         time.sleep(5)#tempo para a calibração de cada ponto
