@@ -60,7 +60,7 @@ while done == False:
     # e armazenamos o delta de tempo
     dt = clock.tick(20)
 
-    while i != 10 :
+    while i != 11 :
 
         event = pygame.event.poll()
 
@@ -90,11 +90,11 @@ while done == False:
             else:
                 px -= nextx 
                          
-        elif(i < 10):
+        elif(i > 6) :
             print('terceiro if')
             
             if(i == 7):
-                py += nexty
+                py += nexty - 40
                 print('i == 7')
                 
             else:
