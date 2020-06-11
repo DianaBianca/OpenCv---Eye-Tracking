@@ -83,12 +83,10 @@ while done == False:
         
         time.sleep(3)
         
-        if( i < 4 ):            
-            print('primeiro if')
+        if( i < 4 ):        
             px += nextx            
             
         elif(i < 7):
-            print('segundo if ***********')
             if(i == 4):
                 print('i == 4')
                 py += nexty
