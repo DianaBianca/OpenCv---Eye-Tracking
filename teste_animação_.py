@@ -67,15 +67,9 @@ while done == False:
         if event.type == pygame.QUIT:
             break
         
-        screen.fill(BLACK)
+        screen.fill(BLACK)#pintando background de preto
         pygame.draw.rect(screen, WHITE, [px, py, 40, 40])
         pygame.display.flip()
-        
-        print('                  ')
-        print('                  ')
-        print('X ------------->',int(px))
-        print('Y ------------->',int(py))
-        print('valor de I : ', i)
         
         time.sleep(3)
         
@@ -94,7 +88,7 @@ while done == False:
             print('terceiro if')
             
             if(i == 7):
-                py += nexty - 40
+                py += nexty - 30
                 print('i == 7')
                 
             else:
