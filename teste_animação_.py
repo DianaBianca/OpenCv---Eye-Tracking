@@ -85,7 +85,7 @@ while done == False:
         elif(i < 7):
             if(i == 4):
                 print('i == 4')
-                py += nexty - 10
+                py += nexty - 20
                
             else:
                 px -= nextx 
