@@ -24,10 +24,6 @@ screen = pygame.display.set_mode(size)
 nextx = int(sizeX/2) - 20
 nexty = int(sizeY/2)
 
-print(nextx)
-print(nextx * 2)
-print(nexty)
-
 #nome da janela
 pygame.display.set_caption("Calibração")
  
