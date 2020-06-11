@@ -67,11 +67,10 @@ while done == False:
         if event.type == pygame.QUIT:
             break
         
-        screen.fill(BLACK)#pintando background de preto
-        pygame.draw.rect(screen, WHITE, [px, py, 40, 40])
+        pygame.draw.rect(screen, WHITE, [px, py, 50, 50])#
         pygame.display.flip()
         
-        time.sleep(3)
+        time.sleep(5)#tempo para a calibração de cada ponto
         
         if( i < 4 ):        
             px += nextx            
@@ -84,9 +83,7 @@ while done == False:
             else:
                 px -= nextx 
                          
-        elif(i > 6) :
-            print('terceiro if')
-            
+        elif(i > 6) :            
             if(i == 7):
                 py += nexty - 30
                 print('i == 7')
