@@ -51,8 +51,11 @@ def main(screen, path_to_image,px,py):
 
 if __name__ == "__main__":
     try:
+        py = 0
+        px = 0
         screen = init()
-        main(screen, sys.argv[0])
+        main(screen, sys.argv[0],px,py)
+
     finally:
         exit()
 
@@ -88,8 +91,7 @@ done = False
 clock = pygame.time.Clock()
 
 i = 2
-py = 0
-px = 0
+
 direita = True
 voltar = False
 # como o relógio do pygame trabalha
