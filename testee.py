@@ -2,7 +2,28 @@ import pygame
 import ctypes
 import time
 import os
+import sys
+from PIL import Image
 
+size=(800,600)
+FORMAT = "RGBA"
+
+def pil_to_game(img):
+    data = img.tobytes("raw", FORMAT)
+    return pygame.image.fromstring(data, img.size, FORMAT)
+
+def get_gif_frame(img, frame):
+    img.seek(frame)
+    return  img.convert(FORMAT)
+
+
+def init():
+    return pygame.display.set_mode(size)
+
+def exit():
+    pygame.quit()
+
+    
 # tela cheia 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 pygame.init()
