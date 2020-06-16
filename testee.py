@@ -23,6 +23,39 @@ def init():
 def exit():
     pygame.quit()
 
+def main(screen, path_to_image,px,py):
+    gif_img = Image.open(path_to_image)
+    
+    current_frame = 0
+    clock = pygame.time.Clock()
+    while True:
+        imagem = pil_to_game(get_gif_frame(gif_img, current_frame))
+        # Recupera as dimensoes da imagem
+        w, h = imagem.get_size()
+
+        # Escalas da imagem
+        scales = [ 300, 300 ]
+        for s in scales:
+            frame = pygame.transform.smoothscale( imagem, (w-s, h-s) )
+            screen.blit(frame, (px, py))
+            
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return
+
+        current_frame = (current_frame + 1) % gif_img.n_frames
+
+        pygame.display.flip()
+        clock.tick(10)
+
+
+if __name__ == "__main__":
+    try:
+        screen = init()
+        main(screen, sys.argv[0])
+    finally:
+        exit()
+
     
 # tela cheia 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
@@ -89,10 +122,7 @@ while done == False:
             break
         screen.fill(BLACK)
         
-        pygame.draw.rect(screen,(255,255,0), [px, py, 40, 40])#
-        
-        pygame.display.flip()
-        
+        main(screen, "giif.gif",px,py)
         time.sleep(5)#tempo para a calibração de cada ponto
         
         if( i < 4 ):        
