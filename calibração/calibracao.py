@@ -82,7 +82,6 @@ while done == False:
             
         elif(i < 7):
             if(i == 4):
-                print('i == 4')
                 py += nexty - 20
                
             else:
@@ -91,13 +90,12 @@ while done == False:
         elif(i > 6) :            
             if(i == 7):
                 py += nexty - 30
-                print('i == 7')
                 
             else:
                 px += nextx 
         i += 1
     done = True
-# Close the window and quit.
+    # Close the window and quit.
     pygame.quit()
 
 print(points)
