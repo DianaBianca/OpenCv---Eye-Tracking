@@ -51,7 +51,7 @@ velocity = 0.05
 clock = pygame.time.Clock()
 
 #armazena as coordenadas da animação
-points = []
+coordenadas = []
 
 # -------- Main Program Loop -----------
 
@@ -75,7 +75,7 @@ while done == False:
 
         pygame.display.flip()
 
-        points.append([int(px), int(py)])
+        coordenadas.append([int(px), int(py)])
 
         #time.sleep(5) #tempo para a calibração de cada ponto
 
@@ -102,9 +102,11 @@ while done == False:
     # Close the window and quit.
     pygame.quit()
 
-print(points)
-targets = np.array(np.asarray(points))
+print(coordenadas)
+#coordenadas dos targets da animação
+targets = np.array(np.asarray(coordenadas))
 print(targets)
+
 #coordenadas dos olhos
 eyes = np.array([[0, 0, 1],
                  [0.25, 0, 1],
