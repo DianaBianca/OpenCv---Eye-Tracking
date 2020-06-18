@@ -2,6 +2,7 @@ import pygame
 import ctypes
 import time
 import os
+import sys
 import numpy as np
 
 # tela cheia 
@@ -74,7 +75,7 @@ while done == False:
 
         points.append([px,py])
 
-        #time.sleep(5) #tempo para a calibração de cada ponto
+        time.sleep(5) #tempo para a calibração de cada ponto
         
         if( i < 4 ):        
             px += nextx            
@@ -94,9 +95,9 @@ while done == False:
                 
             else:
                 px += nextx 
-        i += 1           
-
+        i += 1
+    done = True
 # Close the window and quit.
-pygame.quit()
+    pygame.quit()
 
 print(points)
