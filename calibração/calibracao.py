@@ -68,11 +68,12 @@ while done == False:
             break
         screen.fill(BLACK)
         
-        pygame.draw.rect(screen,(255,255,0), [px, py, 40, 40])#
-        points = np.append(px,py)
+        pygame.draw.rect(screen,(255,255,0), [px, py, 40, 40])
+        values = np.array([px,py])
+        points = np.append(values)
         pygame.display.flip()
         
-        time.sleep(5)#tempo para a calibração de cada ponto
+        #time.sleep(5)#tempo para a calibração de cada ponto
         
         if( i < 4 ):        
             px += nextx            
@@ -94,7 +95,7 @@ while done == False:
                 px += nextx 
         i += 1           
 
-    # Close the window and quit.
-    pygame.quit()
+# Close the window and quit.
+pygame.quit()
 
 print(points)
