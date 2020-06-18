@@ -3,6 +3,10 @@ import ctypes
 import time
 import os
 import numpy as np
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
 
 # tela cheia
 os.environ['SDL_VIDEO_CENTERED'] = '1'
@@ -56,10 +60,7 @@ while done == False:
         if event.type == pygame.QUIT:  # If user clicked close
             done = True  # Flag that we are done so we exit this loop
 
-    # Set the screen background
-    # screen.fill(BLACK)
-    # chamamos o tick do relógio para 30 fps
-    # e armazenamos o delta de tempo
+    # chamamos o tick do relógio para 30 fps e armazenamos o delta de tempo
     dt = clock.tick(20)
 
     while i != 11:
