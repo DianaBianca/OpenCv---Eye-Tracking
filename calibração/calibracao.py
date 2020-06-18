@@ -2,6 +2,7 @@ import pygame
 import ctypes
 import time
 import os
+import numpy as np
 
 # tela cheia 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
@@ -45,7 +46,7 @@ velocity = 0.05
 # criamos uma instância do relógio
 clock = pygame.time.Clock()
 
-
+points = np.array([])
 # -------- Main Program Loop -----------
 
 while done == False:
@@ -68,7 +69,7 @@ while done == False:
         screen.fill(BLACK)
         
         pygame.draw.rect(screen,(255,255,0), [px, py, 40, 40])#
-        
+        points.append([px,py])
         pygame.display.flip()
         
         time.sleep(5)#tempo para a calibração de cada ponto
