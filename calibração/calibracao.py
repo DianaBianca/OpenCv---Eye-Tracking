@@ -46,7 +46,7 @@ velocity = 0.05
 # criamos uma instância do relógio
 clock = pygame.time.Clock()
 
-points = np.array([])
+points = []
 # -------- Main Program Loop -----------
 
 while done == False:
@@ -69,11 +69,12 @@ while done == False:
         screen.fill(BLACK)
         
         pygame.draw.rect(screen,(255,255,0), [px, py, 40, 40])
-        values = np.array([px,py])
-        points = np.append(values)
+
         pygame.display.flip()
-        
-        #time.sleep(5)#tempo para a calibração de cada ponto
+
+        points.append([px,py])
+
+        #time.sleep(5) #tempo para a calibração de cada ponto
         
         if( i < 4 ):        
             px += nextx            
