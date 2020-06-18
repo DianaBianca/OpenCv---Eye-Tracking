@@ -2,7 +2,7 @@ import pygame
 import ctypes
 import time
 import os
-import cv2
+
 # tela cheia 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 pygame.init()
@@ -38,11 +38,13 @@ py = 0
 px = 0
 direita = True
 voltar = False
+
 # como o relógio do pygame trabalha em milissegundos, dividimos por 1000 para manter os 100 pixels por segundo
 velocity = 0.05
 
 # criamos uma instância do relógio
 clock = pygame.time.Clock()
+
 
 # -------- Main Program Loop -----------
 
@@ -90,6 +92,6 @@ while done == False:
             else:
                 px += nextx 
         i += 1           
-    cv2.destroyAllWindows()
+
     # Close the window and quit.
-pygame.quit()
+    pygame.quit()
