@@ -75,9 +75,9 @@ while done == False:
 
         pygame.display.flip()
 
-        points.append([px, py])
+        points.append([int(px), int(py)])
 
-        time.sleep(5) #tempo para a calibração de cada ponto
+        #time.sleep(5) #tempo para a calibração de cada ponto
 
         if (i < 4):
             px += nextx
@@ -103,7 +103,8 @@ while done == False:
     pygame.quit()
 
 print(points)
-
+targets = np.array(np.asarray(points))
+print(targets)
 #coordenadas dos olhos
 eyes = np.array([[0, 0, 1],
                  [0.25, 0, 1],
@@ -118,7 +119,7 @@ eyes = np.array([[0, 0, 1],
 tamanhofixo = 60  # tamanho dos targets
 
 # plt.scatter(eyes[:,0],eyes[:,1], color='blue', s=tamanhofixo)
-plt.scatter(points[:, 0], points[:, 1], color='red', s=tamanhofixo)
+plt.scatter(targets[:, 0], targets[:, 1], color='red', s=tamanhofixo)
 
 equation = np.ones((9, 6))  # 6 equações e 9 alvos
 
@@ -126,8 +127,8 @@ equation = np.ones((9, 6))  # 6 equações e 9 alvos
 for i, eye in enumerate(eyes):
     equation[i, :-1] = [eye[0] ** 2, eye[1] ** 2, eye[0] * eye[1], eye[0], eye[1]]
 
-coeffsX = np.linalg.pinv(equation).dot(points[:, 0])
-coeffsY = np.linalg.pinv(equation).dot(points[:, 1])
+coeffsX = np.linalg.pinv(equation).dot(targets[:, 0])
+coeffsY = np.linalg.pinv(equation).dot(targets[:, 1])
 
 M = np.vstack((coeffsX, coeffsY))
 
