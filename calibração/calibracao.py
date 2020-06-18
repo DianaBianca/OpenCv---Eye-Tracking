@@ -69,7 +69,7 @@ while done == False:
         screen.fill(BLACK)
         
         pygame.draw.rect(screen,(255,255,0), [px, py, 40, 40])#
-        points.append(px,py)
+        points = np.append(px,py)
         pygame.display.flip()
         
         time.sleep(5)#tempo para a calibração de cada ponto
