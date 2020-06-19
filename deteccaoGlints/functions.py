@@ -23,9 +23,9 @@ def roi(frame,points,th,dil,tamanho):
         area= cv2.contourArea(cnt)
         if area <= tamanho :
             cv2.rectangle(dilatacao, (x, y), (x + w, y + h), (255, 0, 0), 2)
-            cv2.line(dilatacao, (x + int(w/2), 0), (x + int(w/2), rows), (0, 255, 0), 2)
-            cv2.line(dilatacao, (0, y + int(h/2)), (cols, y + int(h/2)), (0, 255, 0), 2)
-            
+            #cv2.line(dilatacao, (x + int(w/2), 0), (x + int(w/2), rows), (0, 255, 0), 2)
+            #cv2.line(dilatacao, (0, y + int(h/2)), (cols, y + int(h/2)), (0, 255, 0), 2)
+            print("COORDENADAS ------> ", x, " , " , y)
 
     
     cv2.imshow("roi", dilatacao)

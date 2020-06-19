@@ -15,6 +15,7 @@ cv2.namedWindow('trackbars')
 cv2.createTrackbar('th','trackbars',1,255, nothing)#nome,onde sera criado, valor inicial, val final, função)
 cv2.createTrackbar('dil','trackbars',1,255, nothing)
 cv2.createTrackbar('tamanho','trackbars',1,255,nothing)
+
 def click_and_drop(event, x, y, flags, param):
     global points, cropping
 
@@ -38,6 +39,7 @@ while (True):
     th = cv2.getTrackbarPos('th','trackbars')#nome,onde a track ta
     dil = cv2.getTrackbarPos('dil','trackbars')
     tamanho = cv2.getTrackbarPos('tamanho','trackbars')
+    
     # checando se o frame é válido
     if not retval:
         # Restart video.
