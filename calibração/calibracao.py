@@ -202,7 +202,7 @@ clock = pygame.time.Clock()
 
 #armazena as coordenadas da animação
 coordenadas = []
-
+eyes = []
 # -------- Main Program Loop -----------
 
 while done == False:
@@ -213,6 +213,8 @@ while done == False:
     # chamamos o tick do relógio para 30 fps e armazenamos o delta de tempo
     dt = clock.tick(20)
 
+         # Capture frame-by-frame.
+    
     while i != 11:
 
         event = pygame.event.poll()
@@ -221,13 +223,33 @@ while done == False:
             break
         screen.fill(BLACK)
 
+       retval, frame = capture.read()
+
+        # Check if there is a valid frame.
+        if not retval:
+                # Restart the video.
+            capture.set(cv2.CAP_PROP_POS_FRAMES, 0)
+            continue
+
+            # Get the detection parameters values.
+        threshold = trackbarsValues["threshold"]
+        minimum   = trackbarsValues["minimum"]
+        maximum   = trackbarsValues["maximum"]
+        
+          # Pupil detection.
+        ellipses, centers, bestPupilID = detectPupil(frame, threshold, minimum, maximum)
+
+        # Show the detected pupils.
+        showDetectedPupil(frame, threshold, ellipses, centers, bestPupilID)
+
+
         pygame.draw.rect(screen, (255, 255, 0), [px, py, 40, 40])
 
         pygame.display.flip()
 
         coordenadas.append([int(px), int(py)])
 
-        #time.sleep(5) #tempo para a calibração de cada ponto
+        time.sleep(5) #tempo para a calibração de cada ponto
 
         if (i < 4):
             px += nextx
