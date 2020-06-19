@@ -11,7 +11,7 @@ import ctypes
 import time
 import os
 import matplotlib.pyplot as plt
-
+import calibracao as c
 #################################################################################
 
 ################################ FUNCTIONS ######################################
@@ -28,11 +28,13 @@ def showDetectedPupil(image, threshold, ellipses=None, centers=None, bestPupilID
     """"
     Given an image and some eye feature coordinates, show the processed image.
     """
+    i = 1
+
     # Copy the input image.
     processed = image.copy()
     if (len(processed.shape) == 2):
         processed = cv2.cvtColor(processed, cv2.COLOR_GRAY2BGR)
-
+    coordenadas = []
     # Draw the best pupil candidate:
     if (bestPupilID is not None and bestPupilID != -1):
         pupil = ellipses[bestPupilID]
@@ -42,10 +44,15 @@ def showDetectedPupil(image, threshold, ellipses=None, centers=None, bestPupilID
 
         if center[0] != -1 and center[1] != -1:
             cv2.circle(processed, (int(center[0]), int(center[1])), 5, (0, 255, 0), -1)
-            print("VALUES -----> ", int(center[0]), " , ", int(center[1]))
 
+            if i <= 540:
+                coordenadas.append([int(center[0]), int(center[1])])
+                print("VALUES -----> ", int(center[0]), " , ", int(center[1]))
+            else :
+                c.targetEyes(coordenadas)
     # Show the processed image.
     cv2.imshow("Detected Pupil", processed)
+    i += 1
 
 
 def detectPupil(image, threshold=101, minimum=5, maximum=50):
@@ -150,5 +157,25 @@ cv2.imshow("Trackbars", np.zeros((3, 500), np.uint8))
 
 ######################################################################################
 
+def iniciar(run, capture):
+    while run == True:
+        # -------- Main Program Loop -----------
 
+        retval, frame = capture.read()
 
+        # Check if there is a valid frame.
+        if not retval:
+            # Restart the video.
+            capture.set(cv2.CAP_PROP_POS_FRAMES, 0)
+            continue
+
+        # Get the detection parameters values.
+        threshold = trackbarsValues["threshold"]
+        minimum = trackbarsValues["minimum"]
+        maximum = trackbarsValues["maximum"]
+
+        # Pupil detection.
+        ellipses, centers, bestPupilID = detectPupil(frame, threshold, minimum, maximum)
+
+        # Show the detected pupils.
+        showDetectedPupil(frame, threshold, ellipses, centers, bestPupilID)
