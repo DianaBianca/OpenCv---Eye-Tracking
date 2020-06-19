@@ -203,7 +203,30 @@ clock = pygame.time.Clock()
 #armazena as coordenadas da animação
 coordenadas = []
 eyes = []
-# -------- Main Program Loop -----------
+
+run = True
+while run == True:
+    # -------- Main Program Loop -----------
+
+    retval, frame = capture.read()
+
+    # Check if there is a valid frame.
+    if not retval:
+        # Restart the video.
+        capture.set(cv2.CAP_PROP_POS_FRAMES, 0)
+        continue
+
+    # Get the detection parameters values.
+    threshold = trackbarsValues["threshold"]
+    minimum = trackbarsValues["minimum"]
+    maximum = trackbarsValues["maximum"]
+    # area  = trackbarsValues["area"]
+
+    # Pupil detection.
+    ellipses, centers, bestPupilID = detectPupil(frame, threshold, minimum, maximum)
+
+    # Show the detected pupils.
+    showDetectedPupil(frame, threshold, ellipses, centers, bestPupilID)
 
 while done == False:
     for event in pygame.event.get():  # User did something
@@ -214,7 +237,7 @@ while done == False:
     dt = clock.tick(20)
 
          # Capture frame-by-frame.
-    
+
     while i != 11:
 
         event = pygame.event.poll()
@@ -223,29 +246,10 @@ while done == False:
             break
         screen.fill(BLACK)
 
-       retval, frame = capture.read()
-
-        # Check if there is a valid frame.
-        if not retval:
-                # Restart the video.
-            capture.set(cv2.CAP_PROP_POS_FRAMES, 0)
-            continue
-
-            # Get the detection parameters values.
-        threshold = trackbarsValues["threshold"]
-        minimum   = trackbarsValues["minimum"]
-        maximum   = trackbarsValues["maximum"]
-        
-          # Pupil detection.
-        ellipses, centers, bestPupilID = detectPupil(frame, threshold, minimum, maximum)
-
-        # Show the detected pupils.
-        showDetectedPupil(frame, threshold, ellipses, centers, bestPupilID)
-
-
         pygame.draw.rect(screen, (255, 255, 0), [px, py, 40, 40])
 
         pygame.display.flip()
+
 
         coordenadas.append([int(px), int(py)])
 
