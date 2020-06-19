@@ -53,12 +53,13 @@ def showDetectedPupil(image, threshold, ellipses=None, centers=None, bestPupilID
         cv2.ellipse(processed, pupil, (0, 255, 0), 2)
         
         if center[0] != -1 and center[1] != -1:
-            cv2.circle(processed, (int(center[0]), int(center[1])), 5, (0, 255, 0), -1)     
+            cv2.circle(processed, (int(center[0]), int(center[1])), 5, (0, 255, 0), -1)
+            print("VALUES -----> ",int(center[0]), " , " ,int(center[1]))
 
     # Show the processed image.
     cv2.imshow("Detected Pupil", processed)
 
-def detectPupil(image, threshold=2, minimum=5, maximum=50):
+def detectPupil(image, threshold=101, minimum=5, maximum=50):
     """
     Given an image, return the coordinates of the pupil candidates.
     """
@@ -147,7 +148,7 @@ def detectPupil(image, threshold=2, minimum=5, maximum=50):
 
 # Define the trackbars.
 trackbarsValues = {}
-trackbarsValues["threshold"] = 2
+trackbarsValues["threshold"] = 101
 trackbarsValues["minimum"]  = 5
 trackbarsValues["maximum"]  = 50
 #trackbarsValues["area"]  = 5

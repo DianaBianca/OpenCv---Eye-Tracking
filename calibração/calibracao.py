@@ -7,7 +7,6 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
-
 # tela cheia
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 pygame.init()
@@ -135,6 +134,7 @@ coeffsY = np.linalg.pinv(equation).dot(targets[:, 1])
 M = np.vstack((coeffsX, coeffsY))
 
 eye = np.array([0.25, 0.15])
+
 # Gaze estimation method
 gaze = M.dot([eye[0] ** 2, eye[1] ** 2, eye[0] * eye[1], eye[0], eye[1], 1])
 
