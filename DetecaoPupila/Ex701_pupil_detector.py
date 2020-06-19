@@ -148,9 +148,9 @@ def detectPupil(image, threshold=101, minimum=5, maximum=50):
 
 # Define the trackbars.
 trackbarsValues = {}
-trackbarsValues["threshold"] = 101
-trackbarsValues["minimum"]  = 5
-trackbarsValues["maximum"]  = 50
+trackbarsValues["threshold"] = 75
+trackbarsValues["minimum"]  = 13
+trackbarsValues["maximum"]  = 32
 #trackbarsValues["area"]  = 5
 
 # Create an OpenCV window and some trackbars.
@@ -163,7 +163,7 @@ cv2.createTrackbar("maximum",   "Trackbars", 50, 100, onValuesChange)
 cv2.imshow("Trackbars", np.zeros((3, 500), np.uint8))
 
 # Create a capture video object.
-filename = "inputs/eye01.mov"
+filename = "inputs/eye02.mov"
 capture = cv2.VideoCapture(filename)
 
 # This repetion will run while there is a new frame in the video file or
