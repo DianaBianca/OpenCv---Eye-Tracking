@@ -110,9 +110,9 @@ def detectPupil(image, threshold=101, minimum=5, maximum=50):
         prop = IAMLTools.getContourProperties(cnt, ["Circularity"])
         circularity = prop["Circularity"]
         curva = cv2.arcLength(cnt, True)
-        print("curvatura", curva)
-        print("circulo  ", circularity)
-        print("area  ", area)
+        #print("curvatura", curva)
+        #print("circulo  ", circularity)
+        #print("area  ", area)
 
         if (abs(1. - circularity) < abs(1. - BestCircularity)):
 
@@ -149,3 +149,6 @@ cv2.createTrackbar("maximum",   "Trackbars", 50, 100, onValuesChange)
 cv2.imshow("Trackbars", np.zeros((3, 500), np.uint8))
 
 ######################################################################################
+
+
+
