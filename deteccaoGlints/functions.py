@@ -15,17 +15,15 @@ def roi(frame,points,th,dil,tamanho):
     
     edged = cv2.Canny(dilatacao, 30, 200)
     rows, cols, _ = roi.shape
-    contours, _ = cv2.findContours(edged,cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE) 
-    contours,hier = cv2.findContours(thresh,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
+    contours,hier = cv2.findContours = cv2.findContours(edged,cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE) 
 
     for cnt in contours:
-        if cv2.contourArea(cnt)>5000:  # remove small areas like noise etc
-            hull = cv2.convexHull(cnt)    # find the convex hull of contour
+        if (cv2.contourArea(cnt)>100 and cv2.contourArea(cnt)<600) :  
+            hull = cv2.convexHull(cnt)    
             hull = cv2.approxPolyDP(hull,0.1*cv2.arcLength(hull,True),True)
             if len(hull)==4:
-                cv2.drawContours(img,[hull],0,(0,255,0),2)
-
-    
+                cv2.drawContours(roi,[hull],0,(0,255,0),2)
+        
     cv2.imshow("roi", dilatacao)
     tamanho_frame(roi)   
 
