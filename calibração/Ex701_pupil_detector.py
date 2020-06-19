@@ -53,19 +53,7 @@ def showDetectedPupil(image, threshold, ellipses=None, centers=None, bestPupilID
         cv2.ellipse(processed, pupil, (0, 255, 0), 2)
         
         if center[0] != -1 and center[1] != -1:
-            #cv2.circle(processed, (int(center[0]), int(center[1])), 5, (0, 255, 0), -1)
-            
-            circles = cv2.HoughCircles(image,cv2.HOUGH_GRADIENT,1,10,param1=50,param2=12,minRadius=0,maxRadius=20)
-
-            circles = np.uint16(np.around(circles))
-            
-            for i in circles[0,:]:
-                # draw the outer circle
-                cv2.circle(image,(i[0],i[1]),i[2],(0,255,0),2)
-                # draw the center of the circle
-                cv2.circle(image,(i[0],i[1]),2,(0,0,255),3)
-
-            cv2.imshow('detected circles',image)
+            cv2.circle(processed, (int(center[0]), int(center[1])), 5, (0, 255, 0), -1)
             print("VALUES -----> ",int(center[0]), " , " ,int(center[1]))
 
     # Show the processed image.
@@ -160,9 +148,9 @@ def detectPupil(image, threshold=101, minimum=5, maximum=50):
 
 # Define the trackbars.
 trackbarsValues = {}
-trackbarsValues["threshold"] = 101
-trackbarsValues["minimum"]  = 5
-trackbarsValues["maximum"]  = 50
+trackbarsValues["threshold"] = 75
+trackbarsValues["minimum"]  = 13
+trackbarsValues["maximum"]  = 32
 #trackbarsValues["area"]  = 5
 
 # Create an OpenCV window and some trackbars.
@@ -175,7 +163,7 @@ cv2.createTrackbar("maximum",   "Trackbars", 50, 100, onValuesChange)
 cv2.imshow("Trackbars", np.zeros((3, 500), np.uint8))
 
 # Create a capture video object.
-filename = "inputs/eye01.mov"
+filename = "inputs/eye02.mov"
 capture = cv2.VideoCapture(filename)
 
 # This repetion will run while there is a new frame in the video file or
