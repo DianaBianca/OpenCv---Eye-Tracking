@@ -135,6 +135,27 @@ def detectPupil(image, threshold=101, minimum=5, maximum=50):
 
 ######################################################################################
 
+################################## TRACKBARS #########################################
+# Define the trackbars.
+trackbarsValues = {}
+trackbarsValues["threshold"] = 75
+trackbarsValues["minimum"]  = 13
+trackbarsValues["maximum"]  = 32
+#trackbarsValues["area"]  = 5
+
+# Create an OpenCV window and some trackbars.
+cv2.namedWindow("Trackbars", cv2.WINDOW_AUTOSIZE)
+cv2.createTrackbar("threshold", "Trackbars",  0, 255, onValuesChange)
+cv2.createTrackbar("minimum",   "Trackbars",  5,  40, onValuesChange)
+cv2.createTrackbar("maximum",   "Trackbars", 50, 100, onValuesChange)
+
+cv2.imshow("Trackbars", np.zeros((3, 500), np.uint8))
+
+######################################################################################
+
+# Create a capture video object.
+filename = "inputs/eye02.mov"
+capture = cv2.VideoCapture(filename)
 
 
 # tela cheia
