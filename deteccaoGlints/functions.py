@@ -15,7 +15,7 @@ def roi(frame,points,th,dil,tamanho):
     
     edged = cv2.Canny(dilatacao, 30, 200)
     rows, cols, _ = roi.shape
-    contours,hier = cv2.findContours = cv2.findContours(edged,cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE) 
+    contours,_ =  cv2.findContours(edged,cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE) 
 
     for cnt in contours:
         if (cv2.contourArea(cnt)>100 and cv2.contourArea(cnt)<600) :  
