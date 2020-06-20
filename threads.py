@@ -76,15 +76,15 @@ class myThread (threading.Thread):
           print(coordenadas)
          #coordenadas dos targets da animação
           targets = np.array(np.asarray(coordenadas))
-          return targets
           print(targets)
+          
           # Close the window and quit.
           done = True
           pygame.quit()
-
+      return targets
 threadLock = threading.Lock()
 threads = []
-
+targets = []
 # tela cheia
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 pygame.init()
@@ -140,3 +140,4 @@ threads.append(thread1)
 for t in threads:
     t.join()
 print ("Exiting Main Thread")
+print(x)
