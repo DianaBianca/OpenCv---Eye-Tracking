@@ -72,12 +72,14 @@ class myThread (threading.Thread):
                   else:
                       px += nextx
               i += 1
-          done = True
+          
           print(coordenadas)
          #coordenadas dos targets da animação
           targets = np.array(np.asarray(coordenadas))
+          return targets
           print(targets)
           # Close the window and quit.
+          done = True
           pygame.quit()
 
 threadLock = threading.Lock()
@@ -129,7 +131,7 @@ done = False
 thread1 = myThread(1, "Thread-1", 1)
 
 # Start new Threads
-thread1.start()
+x = [thread1.start()]
 
 # Add threads to thread list
 threads.append(thread1)
