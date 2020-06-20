@@ -139,43 +139,6 @@ def detectPupil(image, threshold=101, minimum=5, maximum=50):
 
 ######################################################################################
 
-################################## TRACKBARS #########################################
-# Define the trackbars.
-trackbarsValues = {}
-trackbarsValues["threshold"] = 75
-trackbarsValues["minimum"]  = 13
-trackbarsValues["maximum"]  = 32
-#trackbarsValues["area"]  = 5
-
-# Create an OpenCV window and some trackbars.
-cv2.namedWindow("Trackbars", cv2.WINDOW_AUTOSIZE)
-cv2.createTrackbar("threshold", "Trackbars",  0, 255, onValuesChange)
-cv2.createTrackbar("minimum",   "Trackbars",  5,  40, onValuesChange)
-cv2.createTrackbar("maximum",   "Trackbars", 50, 100, onValuesChange)
-
-cv2.imshow("Trackbars", np.zeros((3, 500), np.uint8))
 
 ######################################################################################
 
-def iniciar(run, capture):
-    while run == True:
-        # -------- Main Program Loop -----------
-
-        retval, frame = capture.read()
-
-        # Check if there is a valid frame.
-        if not retval:
-            # Restart the video.
-            capture.set(cv2.CAP_PROP_POS_FRAMES, 0)
-            continue
-
-        # Get the detection parameters values.
-        threshold = trackbarsValues["threshold"]
-        minimum = trackbarsValues["minimum"]
-        maximum = trackbarsValues["maximum"]
-
-        # Pupil detection.
-        ellipses, centers, bestPupilID = detectPupil(frame, threshold, minimum, maximum)
-
-        # Show the detected pupils.
-        showDetectedPupil(frame, threshold, ellipses, centers, bestPupilID)
