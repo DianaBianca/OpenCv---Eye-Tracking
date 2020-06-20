@@ -10,6 +10,8 @@ import time
 import os
 import matplotlib.pyplot as plt
 
+global coordenadas = []
+
 class myThread (threading.Thread):
   
    def __init__(self, threadID, name, counter):
@@ -26,6 +28,7 @@ class myThread (threading.Thread):
       direita = True
       voltar = False
       done = False
+      
       while done == False:
           for event in pygame.event.get():  # User did something
               if event.type == pygame.QUIT:  # If user clicked close
@@ -49,7 +52,7 @@ class myThread (threading.Thread):
               pygame.display.flip()
 
 
-              coordenadas.append([int(px), int(py)])
+             global coordenadas.append([int(px), int(py)])
 
               time.sleep(5) #tempo para a calibração de cada ponto
 
@@ -73,15 +76,20 @@ class myThread (threading.Thread):
                       px += nextx
               i += 1
           
-          print(coordenadas)
+          #print(coordenadas)
          #coordenadas dos targets da animação
-          targets = np.array(np.asarray(coordenadas))
-          print(targets)
+          #targets = np.array(np.asarray(coordenadas))
+          
           
           # Close the window and quit.
           done = True
           pygame.quit()
-      return targets
+
+
+   
+#targets = np.array(np.asarray(coordenadas))
+
+   
 threadLock = threading.Lock()
 threads = []
 targets = []
@@ -140,4 +148,4 @@ threads.append(thread1)
 for t in threads:
     t.join()
 print ("Exiting Main Thread")
-print(x)
+print(coordenadas)
