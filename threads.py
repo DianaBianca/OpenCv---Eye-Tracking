@@ -11,6 +11,7 @@ import os
 import matplotlib.pyplot as plt
 
 class myThread (threading.Thread):
+  
    def __init__(self, threadID, name, counter):
       threading.Thread.__init__(self)
       self.threadID = threadID
@@ -18,7 +19,13 @@ class myThread (threading.Thread):
       self.counter = counter
       
    def run(self):
-            
+      
+      i = 2
+      py = 0
+      px = 0
+      direita = True
+      voltar = False
+      done = False
       while done == False:
           for event in pygame.event.get():  # User did something
               if event.type == pygame.QUIT:  # If user clicked close
@@ -69,8 +76,8 @@ class myThread (threading.Thread):
           # Close the window and quit.
           pygame.quit()
 
-
-
+threadLock = threading.Lock()
+threads = []
 # tela cheia
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 pygame.init()
@@ -101,11 +108,6 @@ done = False
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
 
-i = 2
-py = 0
-px = 0
-direita = True
-voltar = False
 
 # como o relógio do pygame trabalha em milissegundos, dividimos por 1000 para manter os 100 pixels por segundo
 velocity = 0.05
@@ -115,6 +117,8 @@ clock = pygame.time.Clock()
 
 #armazena as coordenadas da animação
 coordenadas = []
+
+done = False
 
 # Create new threads
 thread1 = myThread(1, "Thread-1", 1)
