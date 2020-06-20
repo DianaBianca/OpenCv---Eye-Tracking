@@ -1,6 +1,14 @@
 
 import threading
 import time
+import cv2
+import math
+import numpy as np
+import pygame
+import ctypes
+import time
+import os
+import matplotlib.pyplot as plt
 
 class myThread (threading.Thread):
    def __init__(self, threadID, name, counter):
@@ -8,34 +16,114 @@ class myThread (threading.Thread):
       self.threadID = threadID
       self.name = name
       self.counter = counter
+      
    def run(self):
-      print ("Starting " + self.name)
-      # Get lock to synchronize threads
-      threadLock.acquire()
-      print_time(self.name, self.counter, 3)
-      # Free lock to release next thread
-      threadLock.release()
+            
+      while done == False:
+          for event in pygame.event.get():  # User did something
+              if event.type == pygame.QUIT:  # If user clicked close
+                  done = True  # Flag that we are done so we exit this loop
 
-def print_time(threadName, delay, counter):
-   while counter:
-      time.sleep(delay)
-      print ("%s: %s" % (threadName, time.ctime(time.time())))
-      counter -= 1
+          # chamamos o tick do relógio para 30 fps e armazenamos o delta de tempo
+          dt = clock.tick(20)
 
-threadLock = threading.Lock()
-threads = []
+               # Capture frame-by-frame.
+
+          while i != 11:
+
+              event = pygame.event.poll()
+
+              if event.type == pygame.QUIT:
+                  break
+              screen.fill(BLACK)
+
+              pygame.draw.rect(screen, (255, 255, 0), [px, py, 40, 40])
+
+              pygame.display.flip()
+
+
+              coordenadas.append([int(px), int(py)])
+
+              time.sleep(5) #tempo para a calibração de cada ponto
+
+              if (i < 4):
+                  px += nextx
+
+              elif (i < 7):
+                  if (i == 4):
+                      print('i == 4')
+                      py += nexty - 20
+
+                  else:
+                      px -= nextx
+
+              elif (i > 6):
+                  if (i == 7):
+                      py += nexty - 30
+                      print('i == 7')
+
+                  else:
+                      px += nextx
+              i += 1
+          done = True
+          # Close the window and quit.
+          pygame.quit()
+
+
+
+# tela cheia
+os.environ['SDL_VIDEO_CENTERED'] = '1'
+pygame.init()
+
+# Define algumas cores colors
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+
+# Seta a largura e a altura da tela utilizada [width, height](só funciona para windows)
+user32 = ctypes.windll.user32
+
+# 1366 768- tamanho da minha tela
+sizeX = user32.GetSystemMetrics(0)
+sizeY = user32.GetSystemMetrics(1)
+
+size = sizeX, sizeY
+screen = pygame.display.set_mode(size)
+
+nextx = int(sizeX / 2) - 20
+nexty = int(sizeY / 2)
+
+# nome da janela
+pygame.display.set_caption("Calibração")
+
+# Loop until the user clicks the close button.
+done = False
+
+# Used to manage how fast the screen updates
+clock = pygame.time.Clock()
+
+i = 2
+py = 0
+px = 0
+direita = True
+voltar = False
+
+# como o relógio do pygame trabalha em milissegundos, dividimos por 1000 para manter os 100 pixels por segundo
+velocity = 0.05
+
+# criamos uma instância do relógio
+clock = pygame.time.Clock()
+
+#armazena as coordenadas da animação
+coordenadas = []
 
 # Create new threads
 thread1 = myThread(1, "Thread-1", 1)
-thread2 = myThread(2, "Thread-2", 2)
 
 # Start new Threads
 thread1.start()
-thread2.start()
 
 # Add threads to thread list
 threads.append(thread1)
-threads.append(thread2)
 
 # Wait for all threads to complete
 for t in threads:
