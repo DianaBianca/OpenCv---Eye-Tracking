@@ -18,6 +18,7 @@ class vetorTargets:
 
    def setVet(self, px,py):
       self.target.append([int(px), int(py)])
+      print(self.target)
      
    def getVet(self):
       return self.target
@@ -66,7 +67,7 @@ class myThread (threading.Thread):
 
               vet.setVet(px, py)
 
-              time.sleep(5) #tempo para a calibração de cada ponto
+              #time.sleep(5) #tempo para a calibração de cada ponto
 
               if (i < 4):
                   px += nextx
@@ -87,15 +88,15 @@ class myThread (threading.Thread):
                   else:
                       px += nextx
               i += 1
-          
-          #print(coordenadas)
-          #coordenadas dos targets da animação
-          #targets = np.array(np.asarray(coordenadas))
-          
+             
           
           # Close the window and quit.
+          print("cabou")
+          return vet.getVet()
           done = True
+          
           pygame.quit()
+          
 
 
    
@@ -141,14 +142,14 @@ velocity = 0.05
 # criamos uma instância do relógio
 clock = pygame.time.Clock()
 
-
 done = False
 
 # Create new threads
 thread1 = myThread(1, "Thread-1", 1)
 
 # Start new Threads
-thread1.start()
+x = [thread1.start()]
+
 
 # Add threads to thread list
 threads.append(thread1)
@@ -157,4 +158,6 @@ threads.append(thread1)
 for t in threads:
     t.join()
 print ("Exiting Main Thread")
-print(coordenadas)
+print (x)
+#coordenadas  = np.array(np.asarray(vetorTargets.getVet()))
+
