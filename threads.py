@@ -10,7 +10,18 @@ import time
 import os
 import matplotlib.pyplot as plt
 
-global coordenadas = []
+class vetorTargets:
+   target = []
+   
+   def __init__(self):
+        pass     
+
+   def setVet(self, px,py):
+      self.target.append([int(px), int(py)])
+     
+   def getVet(self):
+      return self.target
+
 
 class myThread (threading.Thread):
   
@@ -28,6 +39,7 @@ class myThread (threading.Thread):
       direita = True
       voltar = False
       done = False
+      vet = vetorTargets()
       
       while done == False:
           for event in pygame.event.get():  # User did something
@@ -38,7 +50,7 @@ class myThread (threading.Thread):
           dt = clock.tick(20)
 
                # Capture frame-by-frame.
-
+          
           while i != 11:
 
               event = pygame.event.poll()
@@ -52,7 +64,7 @@ class myThread (threading.Thread):
               pygame.display.flip()
 
 
-             global coordenadas.append([int(px), int(py)])
+              vet.setVet(px, py)
 
               time.sleep(5) #tempo para a calibração de cada ponto
 
@@ -77,7 +89,7 @@ class myThread (threading.Thread):
               i += 1
           
           #print(coordenadas)
-         #coordenadas dos targets da animação
+          #coordenadas dos targets da animação
           #targets = np.array(np.asarray(coordenadas))
           
           
@@ -136,7 +148,7 @@ coordenadas = []
 done = False
 
 # Create new threads
-thread1 = myThread(1, "Thread-1", 1)
+thread1 = myThread(1, "Thread-1", 1,coordenadas)
 
 # Start new Threads
 x = [thread1.start()]
