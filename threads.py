@@ -153,6 +153,5 @@ for t in threads:
 print ("Exiting Main Thread")
 
 targets = np.array(np.asarray(vetTarget))
-print("teste",teste)
-#coordenadas  = np.array(np.asarray(vetorTargets.getVet()))
+print("Array de targets funcionando aaaaa CARALHOOO ----->  \n ",targets)
 
