@@ -9,8 +9,6 @@ import time
 import os
 import matplotlib.pyplot as plt
 
-
-
 class vetorTargets:
    target = []  
 
@@ -21,7 +19,6 @@ class vetorTargets:
    def getVet(self):
       return self.target
 
-
 class myThread (threading.Thread):
    global vet 
    def __init__(self, threadID, name, counter):
@@ -31,7 +28,6 @@ class myThread (threading.Thread):
       self.counter = counter
       
    def run(self):
-      
       i = 2
       py = 0
       px = 0
@@ -58,11 +54,9 @@ class myThread (threading.Thread):
 
               pygame.display.flip()
 
-
               vet.setVet(px, py)
               
-              #print("inicio  ", vet.getVet())
-              #time.sleep(5) #tempo para a calibração de cada ponto
+              time.sleep(5) #tempo para a calibração de cada ponto
 
               if (i < 4):
                   px += nextx
@@ -83,13 +77,11 @@ class myThread (threading.Thread):
                   else:
                       px += nextx
               i += 1
-         
-          # Close the window and quit
+   
           done = True
           
       global vetTarget
       vetTarget = vet.getVet()
-
    
 threadLock = threading.Lock()
 threads = []
@@ -123,7 +115,6 @@ done = False
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
 
-
 # como o relógio do pygame trabalha em milissegundos, dividimos por 1000 para manter os 100 pixels por segundo
 velocity = 0.05
 
@@ -137,7 +128,6 @@ thread1 = myThread(1, "Thread-1", 1)
 
 # Start new Threads
 (thread1.start())
-
 
 # Add threads to thread list
 threads.append(thread1)
