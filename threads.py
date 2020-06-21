@@ -87,19 +87,13 @@ class myThread (threading.Thread):
           
          
           # Close the window and quit.
-          x = []
-          x= vet.getVet()
-          print(x)
-          return(x)
+          
           
           done = True
           pygame.quit()
           print("cabou")
-          
-
-
-   
-#targets = np.array(np.asarray(coordenadas))
+      global vetTarget
+      vetTarget = vet.getVet()
 
    
 threadLock = threading.Lock()
@@ -147,8 +141,7 @@ done = False
 thread1 = myThread(1, "Thread-1", 1)
 
 # Start new Threads
-x = []
-x = [(thread1.start())]
+(thread1.start())
 
 
 # Add threads to thread list
@@ -158,6 +151,8 @@ threads.append(thread1)
 for t in threads:
     t.join()
 print ("Exiting Main Thread")
-print(x)
+
+targets = np.array(np.asarray(vetTarget))
+print("teste",teste)
 #coordenadas  = np.array(np.asarray(vetorTargets.getVet()))
 
