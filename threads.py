@@ -104,7 +104,6 @@ class myThread (threading.Thread):
    
 threadLock = threading.Lock()
 threads = []
-targets = []
 # tela cheia
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 pygame.init()
@@ -142,16 +141,14 @@ velocity = 0.05
 # criamos uma instância do relógio
 clock = pygame.time.Clock()
 
-#armazena as coordenadas da animação
-coordenadas = []
 
 done = False
 
 # Create new threads
-thread1 = myThread(1, "Thread-1", 1,coordenadas)
+thread1 = myThread(1, "Thread-1", 1)
 
 # Start new Threads
-x = [thread1.start()]
+thread1.start()
 
 # Add threads to thread list
 threads.append(thread1)
