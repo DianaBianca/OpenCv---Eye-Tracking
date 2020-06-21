@@ -1,4 +1,3 @@
-
 import threading
 import time
 import cv2
@@ -9,6 +8,8 @@ import ctypes
 import time
 import os
 import matplotlib.pyplot as plt
+
+
 
 class vetorTargets:
    target = []  
@@ -22,7 +23,7 @@ class vetorTargets:
 
 
 class myThread (threading.Thread):
-  
+   global vet 
    def __init__(self, threadID, name, counter):
       threading.Thread.__init__(self)
       self.threadID = threadID
@@ -83,13 +84,15 @@ class myThread (threading.Thread):
                       px += nextx
               i += 1
              
-          print("aqui") 
-          return vet.getVet()
-          # Close the window and quit.
           
+         
+          # Close the window and quit.
+          x = []
+          x= vet.getVet()
+          print(x)
+          return(x)
           
           done = True
-          
           pygame.quit()
           print("cabou")
           
@@ -145,7 +148,7 @@ thread1 = myThread(1, "Thread-1", 1)
 
 # Start new Threads
 x = []
-x.append(thread1.start())
+x = [(thread1.start())]
 
 
 # Add threads to thread list
@@ -155,6 +158,6 @@ threads.append(thread1)
 for t in threads:
     t.join()
 print ("Exiting Main Thread")
-print (x)
+print(x)
 #coordenadas  = np.array(np.asarray(vetorTargets.getVet()))
 
