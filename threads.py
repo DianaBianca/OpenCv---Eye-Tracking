@@ -182,5 +182,3 @@ plt.scatter(a, b, color='black', s=200)
 plt.xlabel("x")
 plt.ylabel("y")
 plt.show()
-
-
