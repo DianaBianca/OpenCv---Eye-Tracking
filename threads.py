@@ -11,10 +11,7 @@ import os
 import matplotlib.pyplot as plt
 
 class vetorTargets:
-   target = []
-   
-   def __init__(self):
-        pass     
+   target = []  
 
    def setVet(self, px,py):
       self.target.append([int(px), int(py)])
@@ -43,14 +40,10 @@ class myThread (threading.Thread):
       vet = vetorTargets()
       
       while done == False:
-          for event in pygame.event.get():  # User did something
-              if event.type == pygame.QUIT:  # If user clicked close
-                  done = True  # Flag that we are done so we exit this loop
-
-          # chamamos o tick do relógio para 30 fps e armazenamos o delta de tempo
+          for event in pygame.event.get():  
+              if event.type == pygame.QUIT:  
+                  done = True  
           dt = clock.tick(20)
-
-               # Capture frame-by-frame.
           
           while i != 11:
 
@@ -66,7 +59,8 @@ class myThread (threading.Thread):
 
 
               vet.setVet(px, py)
-
+              
+              #print("inicio  ", vet.getVet())
               #time.sleep(5) #tempo para a calibração de cada ponto
 
               if (i < 4):
@@ -89,13 +83,15 @@ class myThread (threading.Thread):
                       px += nextx
               i += 1
              
-          
-          # Close the window and quit.
-          print("cabou")
+          print("aqui") 
           return vet.getVet()
+          # Close the window and quit.
+          
+          
           done = True
           
           pygame.quit()
+          print("cabou")
           
 
 
@@ -148,7 +144,8 @@ done = False
 thread1 = myThread(1, "Thread-1", 1)
 
 # Start new Threads
-x = [thread1.start()]
+x = []
+x.append(thread1.start())
 
 
 # Add threads to thread list
