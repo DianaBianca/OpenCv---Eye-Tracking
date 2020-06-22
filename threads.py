@@ -35,7 +35,7 @@ class myThread (threading.Thread):
       voltar = False
       done = False
       vet = vetorTargets()
-      
+      global pause
       while done == False:
           for event in pygame.event.get():  
               if event.type == pygame.QUIT:  
@@ -55,9 +55,10 @@ class myThread (threading.Thread):
               pygame.display.flip()
 
               vet.setVet(px, py)
-              
+              pause = True
               time.sleep(5) #tempo para a calibração de cada ponto
-
+              pause = false
+              
               if (i < 4):
                   px += nextx
 
