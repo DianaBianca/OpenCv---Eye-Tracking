@@ -44,10 +44,11 @@ def showDetectedPupil(image, threshold, ellipses=None, centers=None, bestPupilID
 
         if center[0] != -1 and center[1] != -1:
             cv2.circle(processed, (int(center[0]), int(center[1])), 5, (0, 255, 0), -1)
-            print("VALUES -----> ", int(center[0]), " , ", int(center[1]))
+            #print("VALUES -----> ", int(center[0]), " , ", int(center[1]))
 
     # Show the processed image.
     cv2.imshow("Detected Pupil", processed)
+
 
 def detectPupil(image, threshold=101, minimum=5, maximum=50):
     """
@@ -55,45 +56,46 @@ def detectPupil(image, threshold=101, minimum=5, maximum=50):
     """
     # Create the output variable.
     bestPupilID = -1
-    ellipses    = []
-    centers     = []
-    area        = []
+    ellipses = []
+    centers = []
+    area = []
 
-    kernel  = np.ones((5,5),np.uint8)
+    kernel = np.ones((5, 5), np.uint8)
 
     # Grayscale image.
     grayscale = image.copy()
     if len(grayscale.shape) == 3:
         grayscale = cv2.cvtColor(grayscale, cv2.COLOR_BGR2GRAY)
 
-
     # Define the minimum and maximum size of the detected blob.
     minimum = int(round(math.pi * math.pow(minimum, 2)))
     maximum = int(round(math.pi * math.pow(maximum, 2)))
 
-    blur= cv2.bilateralFilter(grayscale,9,40,40)
+    blur = cv2.bilateralFilter(grayscale, 9, 40, 40)
 
     # Create a binary image.
-    _, thres = cv2.threshold(blur, threshold, 255,cv2.THRESH_BINARY_INV)
+    _, thres = cv2.threshold(blur, threshold, 255, cv2.THRESH_BINARY_INV)
 
-    cls = cv2.morphologyEx(thres,cv2.MORPH_OPEN,kernel, iterations = 1)
-
+    cls = cv2.morphologyEx(thres, cv2.MORPH_OPEN, kernel, iterations=1)
+    # dilation = cv2.dilate(cls,kernel,iterations = 1)
+    # erosion = cv2.erode(dilation, kernel, iterations = 1)
+    # dilatacao = cv2.dilate(thres,kernel, iterations = 1 )
     # Show the threshould image.
     cv2.imshow("Threshold", thres)
 
     # Find blobs in the input image.
-    contours, hierarchy= cv2.findContours(thres, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    contours, hierarchy = cv2.findContours(thres, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
-    #<!--------------------------------------------------------------------------->
-    #<!--                            YOUR CODE HERE                             -->
-    #<!--------------------------------------------------------------------------->
+    # <!--------------------------------------------------------------------------->
+    # <!--                            YOUR CODE HERE                             -->
+    # <!--------------------------------------------------------------------------->
 
-    minRect = [None]*len(contours)
-    minEllipse = [None]*len(contours)
+    minRect = [None] * len(contours)
+    minEllipse = [None] * len(contours)
     BestCircularity = 0
 
     for cnt in contours:
-        prop = IAMLTools.getContourProperties(cnt, properties=["Area","Centroid"])
+        prop = IAMLTools.getContourProperties(cnt, properties=["Area", "Centroid"])
 
         if len(cnt) > 5:
             ellipse = cv2.fitEllipse(cnt)
@@ -111,72 +113,52 @@ def detectPupil(image, threshold=101, minimum=5, maximum=50):
 
         prop = IAMLTools.getContourProperties(cnt, ["Circularity"])
         circularity = prop["Circularity"]
-        curva = cv2.arcLength(cnt,True)
-       # print("curvatura",curva)
-       # print("circulo  ",circularity)
-       # print("area  ",area)
+        curva = cv2.arcLength(cnt, True)
+        print("curvatura", curva)
+        print("circulo  ", circularity)
+        print("area  ", area)
 
-        if(abs(1. - circularity) < abs(1. - BestCircularity)):
+        if (abs(1. - circularity) < abs(1. - BestCircularity)):
 
             BestCircularity = circularity
-            bestPupilID = len(ellipses)-1
+            bestPupilID = len(ellipses) - 1
 
-            if(BestCircularity == circularity):
-                if((area > 3000 and area < 3900)  or curva < 300):
-                     showDetectedPupil(image, threshold, ellipses, centers , bestPupilID)
+            if (BestCircularity == circularity):
+                if ((area > 3000 and area < 3900) or curva < 300):
+                    showDetectedPupil(image, threshold, ellipses, centers, bestPupilID)
 
-
-    #<!--------------------------------------------------------------------------->
-    #<!--                                                                       -->
-    #<!--------------------------------------------------------------------------->
+    # <!--------------------------------------------------------------------------->
+    # <!--                                                                       -->
+    # <!--------------------------------------------------------------------------->
 
     # Return the final result.
     return ellipses, centers, bestPupilID
 
 
-######################################################################################
-
-################################## TRACKBARS #########################################
 # Define the trackbars.
 trackbarsValues = {}
 trackbarsValues["threshold"] = 75
-trackbarsValues["minimum"]  = 13
-trackbarsValues["maximum"]  = 32
-#trackbarsValues["area"]  = 5
+trackbarsValues["minimum"] = 13
+trackbarsValues["maximum"] = 32
+# trackbarsValues["area"]  = 5
 
 # Create an OpenCV window and some trackbars.
 cv2.namedWindow("Trackbars", cv2.WINDOW_AUTOSIZE)
-cv2.createTrackbar("threshold", "Trackbars",  0, 255, onValuesChange)
-cv2.createTrackbar("minimum",   "Trackbars",  5,  40, onValuesChange)
-cv2.createTrackbar("maximum",   "Trackbars", 50, 100, onValuesChange)
-
-cv2.imshow("Trackbars", np.zeros((3, 500), np.uint8))
-
-######################################################################################
-
-# Define the trackbars.
-trackbarsValues = {}
-trackbarsValues["threshold"] = 75
-trackbarsValues["minimum"]  = 13
-trackbarsValues["maximum"]  = 32
-#trackbarsValues["area"]  = 5
-
-# Create an OpenCV window and some trackbars.
-cv2.namedWindow("Trackbars", cv2.WINDOW_AUTOSIZE)
-cv2.createTrackbar("threshold", "Trackbars",  0, 255, onValuesChange)
-cv2.createTrackbar("minimum",   "Trackbars",  5,  40, onValuesChange)
-cv2.createTrackbar("maximum",   "Trackbars", 50, 100, onValuesChange)
-#cv2.createTrackbar("area",  "Trackbars",  5, 400, onValuesChange)
+cv2.createTrackbar("threshold", "Trackbars", 0, 255, onValuesChange)
+cv2.createTrackbar("minimum", "Trackbars", 5, 40, onValuesChange)
+cv2.createTrackbar("maximum", "Trackbars", 50, 100, onValuesChange)
+# cv2.createTrackbar("area",  "Trackbars",  5, 400, onValuesChange)
 
 cv2.imshow("Trackbars", np.zeros((3, 500), np.uint8))
 
 # Create a capture video object.
 filename = "inputs/eye02.mov"
 capture = cv2.VideoCapture(filename)
-coordenadas = []
 
-# -------- Main Program Loop -----------
+# This repetion will run while there is a new frame in the video file or
+# while the user do not press the "q" (quit) keyboard button.
 while True:
+    # Capture frame-by-frame.
     retval, frame = capture.read()
 
     # Check if there is a valid frame.
@@ -189,6 +171,7 @@ while True:
     threshold = trackbarsValues["threshold"]
     minimum = trackbarsValues["minimum"]
     maximum = trackbarsValues["maximum"]
+    # area  = trackbarsValues["area"]
 
     # Pupil detection.
     ellipses, centers, bestPupilID = detectPupil(frame, threshold, minimum, maximum)
@@ -196,6 +179,14 @@ while True:
     # Show the detected pupils.
     showDetectedPupil(frame, threshold, ellipses, centers, bestPupilID)
 
+    # Display the captured frame.
+    # cv2.imshow("Eye Image", frame)
+    if cv2.waitKey(33) & 0xFF == ord("q"):
+        break
+
+# When everything done, release the capture object.
+capture.release()
+cv2.destroyAllWindows()
 
 
 #coordenadas dos olhos
