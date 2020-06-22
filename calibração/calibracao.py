@@ -45,11 +45,14 @@ def showDetectedPupil(image, threshold, ellipses=None, centers=None, bestPupilID
 
         if center[0] != -1 and center[1] != -1:
             cv2.circle(processed, (int(center[0]), int(center[1])), 5, (0, 255, 0), -1)
-            if coordenadas.__len__() <= 540:
-                coordenadas.append([int(center[0]), int(center[1])])
-                print("VALUES -----> ", int(center[0]), " , ", int(center[1]))
-                print("TAMANHO DA LISTA : ", coordenadas.__len__())
-            else:
+
+            if pause == False:
+                i= 1
+                while i <= 60 :
+                    coordenadas.append([int(center[0]), int(center[1])])
+                    print("VALUES -----> ", int(center[0]), " , ", int(center[1]))
+                    print("TAMANHO DA LISTA : ", coordenadas.__len__())
+            if encerrar:
                targetEyes(coordenadas)
                print("LISTA : ", coordenadas)
                cv2.destroyAllWindows()
@@ -58,10 +61,8 @@ def showDetectedPupil(image, threshold, ellipses=None, centers=None, bestPupilID
         # Show the processed image.
         cv2.imshow("Detected Pupil", processed)
 
-
     # Show the processed image.
     cv2.imshow("Detected Pupil", processed)
-
 
 eyes = np.array([])
 
@@ -245,7 +246,7 @@ class myThread(threading.Thread):
                 vet.setVet(px, py)
                 pause = True
                 time.sleep(5)  # tempo para a calibração de cada ponto
-                pause = false
+                pause = False
 
                 if (i < 4):
                     px += nextx
@@ -275,6 +276,7 @@ class myThread(threading.Thread):
 
 threadLock = threading.Lock()
 threads = []
+coordenadas = []
 # tela cheia
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 pygame.init()
@@ -325,6 +327,7 @@ threads.append(thread1)
 # Wait for all threads to complete
 for t in threads:
     t.join()
+encerrar = True
 
 pygame.quit()
 
