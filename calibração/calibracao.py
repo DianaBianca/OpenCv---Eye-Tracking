@@ -1,6 +1,4 @@
 
-__version__ = "$Revision: 2018031201 $"
-
 ############################ IMPORTS ############################################
 import cv2
 import math
@@ -13,6 +11,7 @@ import ctypes
 import time
 import os
 import matplotlib.pyplot as plt
+import threading
 #################################################################################
 
 class vetorEyes:
@@ -20,7 +19,7 @@ class vetorEyes:
 
     def setVet(self, x, y):
         self.eyes.append([int(x), int(y)])
-        print(self.eyes)
+        #print(self.eyes)
 
     def getVet(self):
         return self.eyes
@@ -35,8 +34,6 @@ def onValuesChange(self, dummy=None):
     trackbarsValues["threshold"] = cv2.getTrackbarPos("threshold", "Trackbars")
     trackbarsValues["minimum"]   = cv2.getTrackbarPos("minimum", "Trackbars")
     trackbarsValues["maximum"]   = cv2.getTrackbarPos("maximum", "Trackbars")
-    #trackbarsValues["area"]  = cv2.getTrackbarPos("area", "Trackbars")
-
 
 def showDetectedPupil(image, threshold, ellipses=None, centers=None, bestPupilID=None):
     """"
@@ -61,8 +58,6 @@ def showDetectedPupil(image, threshold, ellipses=None, centers=None, bestPupilID
         if center[0] != -1 and center[1] != -1:
             cv2.circle(processed, (int(center[0]), int(center[1])), 5, (0, 255, 0), -1)
             eyes.setVet(int(center[0]), int(center[1]))
-            #print("VALUES -----> ", int(center[0]), " , ", int(center[1]))
-            print("TAMANHO DO VETOR ",eyes.tamanho())
 
             if (eyes.tamanho() >= 540):
                 print(" 540 indices ok ")
@@ -105,15 +100,9 @@ def detectPupil(image, threshold=101, minimum=5, maximum=50):
     _, thres = cv2.threshold(blur, threshold, 255, cv2.THRESH_BINARY_INV)
 
     cls = cv2.morphologyEx(thres, cv2.MORPH_OPEN, kernel, iterations=1)
-    # Show the threshould image.
-    #cv2.imshow("Threshold", thres)
 
     # Find blobs in the input image.
     contours, hierarchy = cv2.findContours(thres, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-
-    # <!--------------------------------------------------------------------------->
-    # <!--                            YOUR CODE HERE                             -->
-    # <!--------------------------------------------------------------------------->
 
     minRect = [None] * len(contours)
     minEllipse = [None] * len(contours)
@@ -148,10 +137,6 @@ def detectPupil(image, threshold=101, minimum=5, maximum=50):
             if (BestCircularity == circularity):
                 if ((area > 3000 and area < 3900) or curva < 300):
                     showDetectedPupil(image, threshold, ellipses, centers, bestPupilID)
-
-    # <!--------------------------------------------------------------------------->
-    # <!--                                                                       -->
-    # <!--------------------------------------------------------------------------->
 
     # Return the final result.
     return ellipses, centers, bestPupilID
