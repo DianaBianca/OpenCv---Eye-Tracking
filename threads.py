@@ -55,9 +55,9 @@ class myThread (threading.Thread):
               pygame.display.flip()
 
               vet.setVet(px, py)
-              pause = True
-              time.sleep(5) #tempo para a calibração de cada ponto
-              pause = false
+              
+              #time.sleep(5) #tempo para a calibração de cada ponto
+              
               
               if (i < 4):
                   px += nextx

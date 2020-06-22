@@ -13,7 +13,6 @@ import ctypes
 import time
 import os
 import matplotlib.pyplot as plt
-import threading
 #################################################################################
 
 
@@ -45,14 +44,11 @@ def showDetectedPupil(image, threshold, ellipses=None, centers=None, bestPupilID
 
         if center[0] != -1 and center[1] != -1:
             cv2.circle(processed, (int(center[0]), int(center[1])), 5, (0, 255, 0), -1)
-
-            if pause == False:
-                i= 1
-                while i <= 60 :
-                    coordenadas.append([int(center[0]), int(center[1])])
-                    print("VALUES -----> ", int(center[0]), " , ", int(center[1]))
-                    print("TAMANHO DA LISTA : ", coordenadas.__len__())
-            if encerrar:
+            if coordenadas.__len__() <= 540:
+                coordenadas.append([int(center[0]), int(center[1])])
+                print("VALUES -----> ", int(center[0]), " , ", int(center[1]))
+                print("TAMANHO DA LISTA : ", coordenadas.__len__())
+            else:
                targetEyes(coordenadas)
                print("LISTA : ", coordenadas)
                cv2.destroyAllWindows()
@@ -61,8 +57,10 @@ def showDetectedPupil(image, threshold, ellipses=None, centers=None, bestPupilID
         # Show the processed image.
         cv2.imshow("Detected Pupil", processed)
 
+
     # Show the processed image.
     cv2.imshow("Detected Pupil", processed)
+
 
 eyes = np.array([])
 
@@ -196,87 +194,6 @@ filename = "inputs/eye02.mov"
 capture = cv2.VideoCapture(filename)
 
 
-class vetorTargets:
-    target = []
-
-    def setVet(self, px, py):
-        self.target.append([int(px), int(py)])
-        print(self.target)
-
-    def getVet(self):
-        return self.target
-
-
-class myThread(threading.Thread):
-    global vet
-
-    def __init__(self, threadID, name, counter):
-        threading.Thread.__init__(self)
-        self.threadID = threadID
-        self.name = name
-        self.counter = counter
-
-    def run(self):
-        i = 2
-        py = 0
-        px = 0
-        direita = True
-        voltar = False
-        done = False
-        vet = vetorTargets()
-        global pause
-        while done == False:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    done = True
-            dt = clock.tick(20)
-
-            while i != 11:
-
-                event = pygame.event.poll()
-
-                if event.type == pygame.QUIT:
-                    break
-                screen.fill(BLACK)
-
-                pygame.draw.rect(screen, (255, 255, 0), [px, py, 40, 40])
-
-                pygame.display.flip()
-
-                vet.setVet(px, py)
-                pause = True
-                time.sleep(5)  # tempo para a calibração de cada ponto
-                pause = False
-
-                if (i < 4):
-                    px += nextx
-
-                elif (i < 7):
-                    if (i == 4):
-                        print('i == 4')
-                        py += nexty - 20
-
-                    else:
-                        px -= nextx
-
-                elif (i > 6):
-                    if (i == 7):
-                        py += nexty - 30
-                        print('i == 7')
-
-                    else:
-                        px += nextx
-                i += 1
-
-            done = True
-
-        global vetTarget
-        vetTarget = vet.getVet()
-
-
-threadLock = threading.Lock()
-threads = []
-coordenadas = []
 # tela cheia
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 pygame.init()
@@ -307,33 +224,98 @@ done = False
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
 
+i = 2
+py = 0
+px = 0
+direita = True
+voltar = False
+
 # como o relógio do pygame trabalha em milissegundos, dividimos por 1000 para manter os 100 pixels por segundo
 velocity = 0.05
 
 # criamos uma instância do relógio
 clock = pygame.time.Clock()
 
-done = False
+#armazena as coordenadas da animação
+coordenadas = []
+eyes = []
+# -------- Main Program Loop -----------
+while True :
+    # Get the detection parameters values.
+    threshold = trackbarsValues["threshold"]
+    minimum = trackbarsValues["minimum"]
+    maximum = trackbarsValues["maximum"]
+    retval, frame = capture.read()
 
-# Create new threads
-thread1 = myThread(1, "Thread-1", 1)
+    # Check if there is a valid frame.
+    if not retval:
+        # Restart the video.
+        capture.set(cv2.CAP_PROP_POS_FRAMES, 0)
+        continue
 
-# Start new Threads
-(thread1.start())
+    # Pupil detection.
 
-# Add threads to thread list
-threads.append(thread1)
+    ellipses, centers, bestPupilID = detectPupil(frame, threshold, minimum, maximum)
 
-# Wait for all threads to complete
-for t in threads:
-    t.join()
-encerrar = True
+    # Show the detected pupils.
+    showDetectedPupil(frame, threshold, ellipses, centers, bestPupilID)
 
-pygame.quit()
+while done == False:
+    for event in pygame.event.get():  # User did something
+        if event.type == pygame.QUIT:  # If user clicked close
+            done = True  # Flag that we are done so we exit this loop
 
-targets = np.array(np.asarray(vetTarget))
+    # chamamos o tick do relógio para 30 fps e armazenamos o delta de tempo
+    dt = clock.tick(20)
 
-# coordenadas dos olhos
+         # Capture frame-by-frame.
+
+    while i != 11:
+
+        event = pygame.event.poll()
+
+        if event.type == pygame.QUIT:
+            break
+        screen.fill(BLACK)
+
+        pygame.draw.rect(screen, (255, 255, 0), [px, py, 40, 40])
+
+        pygame.display.flip()
+
+
+        coordenadas.append([int(px), int(py)])
+
+        time.sleep(5) #tempo para a calibração de cada ponto
+
+        if (i < 4):
+            px += nextx
+
+        elif (i < 7):
+            if (i == 4):
+                print('i == 4')
+                py += nexty - 20
+
+            else:
+                px -= nextx
+
+        elif (i > 6):
+            if (i == 7):
+                py += nexty - 30
+                print('i == 7')
+
+            else:
+                px += nextx
+        i += 1
+    done = True
+    # Close the window and quit.
+    pygame.quit()
+
+print(coordenadas)
+#coordenadas dos targets da animação
+targets = np.array(np.asarray(coordenadas))
+print(targets)
+
+#coordenadas dos olhos
 eyes = np.array([[0, 0, 1],
                  [0.25, 0, 1],
                  [0.5, 0, 1],
@@ -365,7 +347,7 @@ eye = np.array([0.25, 0.15])
 # Gaze estimation method
 gaze = M.dot([eye[0] ** 2, eye[1] ** 2, eye[0] * eye[1], eye[0], eye[1], 1])
 
-print("gaze --> ", gaze)
+print(gaze)
 
 a = gaze[0]
 b = gaze[1]
