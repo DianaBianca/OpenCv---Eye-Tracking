@@ -260,60 +260,7 @@ while True :
     # Show the detected pupils.
     showDetectedPupil(frame, threshold, ellipses, centers, bestPupilID)
 
-while done == False:
-    for event in pygame.event.get():  # User did something
-        if event.type == pygame.QUIT:  # If user clicked close
-            done = True  # Flag that we are done so we exit this loop
 
-    # chamamos o tick do relógio para 30 fps e armazenamos o delta de tempo
-    dt = clock.tick(20)
-
-         # Capture frame-by-frame.
-
-    while i != 11:
-
-        event = pygame.event.poll()
-
-        if event.type == pygame.QUIT:
-            break
-        screen.fill(BLACK)
-
-        pygame.draw.rect(screen, (255, 255, 0), [px, py, 40, 40])
-
-        pygame.display.flip()
-
-
-        coordenadas.append([int(px), int(py)])
-
-        time.sleep(5) #tempo para a calibração de cada ponto
-
-        if (i < 4):
-            px += nextx
-
-        elif (i < 7):
-            if (i == 4):
-                print('i == 4')
-                py += nexty - 20
-
-            else:
-                px -= nextx
-
-        elif (i > 6):
-            if (i == 7):
-                py += nexty - 30
-                print('i == 7')
-
-            else:
-                px += nextx
-        i += 1
-    done = True
-    # Close the window and quit.
-    pygame.quit()
-
-print(coordenadas)
-#coordenadas dos targets da animação
-targets = np.array(np.asarray(coordenadas))
-print(targets)
 
 #coordenadas dos olhos
 eyes = np.array([[0, 0, 1],
