@@ -25,11 +25,11 @@ def onValuesChange(self, dummy=None):
     trackbarsValues["maximum"]   = cv2.getTrackbarPos("maximum", "Trackbars")
     #trackbarsValues["area"]  = cv2.getTrackbarPos("area", "Trackbars")
 
+
 def showDetectedPupil(image, threshold, ellipses=None, centers=None, bestPupilID=None):
     """"
     Given an image and some eye feature coordinates, show the processed image.
     """
-
     # Copy the input image.
     processed = image.copy()
     if (len(processed.shape) == 2):
@@ -37,29 +37,17 @@ def showDetectedPupil(image, threshold, ellipses=None, centers=None, bestPupilID
 
     # Draw the best pupil candidate:
     if (bestPupilID is not None and bestPupilID != -1):
-        pupil  = ellipses[bestPupilID]
+        pupil = ellipses[bestPupilID]
         center = centers[bestPupilID]
 
         cv2.ellipse(processed, pupil, (0, 255, 0), 2)
 
         if center[0] != -1 and center[1] != -1:
             cv2.circle(processed, (int(center[0]), int(center[1])), 5, (0, 255, 0), -1)
-            if coordenadas.__len__() <= 540:
-                coordenadas.append([int(center[0]), int(center[1])])
-                #print("VALUES -----> ", int(center[0]), " , ", int(center[1]))
-            else:
-                capture.release()
-                cv2.destroyAllWindows()
-
-
-
-        # Show the processed image.
-        cv2.imshow("Detected Pupil", processed)
-
+            print("VALUES -----> ", int(center[0]), " , ", int(center[1]))
 
     # Show the processed image.
     cv2.imshow("Detected Pupil", processed)
-
 
 def detectPupil(image, threshold=101, minimum=5, maximum=50):
     """
@@ -166,16 +154,29 @@ cv2.imshow("Trackbars", np.zeros((3, 500), np.uint8))
 
 ######################################################################################
 
+# Define the trackbars.
+trackbarsValues = {}
+trackbarsValues["threshold"] = 75
+trackbarsValues["minimum"]  = 13
+trackbarsValues["maximum"]  = 32
+#trackbarsValues["area"]  = 5
+
+# Create an OpenCV window and some trackbars.
+cv2.namedWindow("Trackbars", cv2.WINDOW_AUTOSIZE)
+cv2.createTrackbar("threshold", "Trackbars",  0, 255, onValuesChange)
+cv2.createTrackbar("minimum",   "Trackbars",  5,  40, onValuesChange)
+cv2.createTrackbar("maximum",   "Trackbars", 50, 100, onValuesChange)
+#cv2.createTrackbar("area",  "Trackbars",  5, 400, onValuesChange)
+
+cv2.imshow("Trackbars", np.zeros((3, 500), np.uint8))
+
 # Create a capture video object.
 filename = "inputs/eye02.mov"
 capture = cv2.VideoCapture(filename)
-
-#armazena as coordenadas da animação
 coordenadas = []
-global done
-done = True
+
 # -------- Main Program Loop -----------
-while done:
+while True:
     retval, frame = capture.read()
 
     # Check if there is a valid frame.
