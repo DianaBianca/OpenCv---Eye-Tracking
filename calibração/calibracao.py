@@ -46,12 +46,11 @@ def showDetectedPupil(image, threshold, ellipses=None, centers=None, bestPupilID
             cv2.circle(processed, (int(center[0]), int(center[1])), 5, (0, 255, 0), -1)
             if coordenadas.__len__() <= 540:
                 coordenadas.append([int(center[0]), int(center[1])])
-                print("VALUES -----> ", int(center[0]), " , ", int(center[1]))
-                print("TAMANHO DA LISTA : ", coordenadas.__len__())
+                #print("VALUES -----> ", int(center[0]), " , ", int(center[1]))
             else:
-               targetEyes(coordenadas)
-               print("LISTA : ", coordenadas)
-               cv2.destroyAllWindows()
+                capture.release()
+                cv2.destroyAllWindows()
+
 
 
         # Show the processed image.
@@ -61,28 +60,6 @@ def showDetectedPupil(image, threshold, ellipses=None, centers=None, bestPupilID
     # Show the processed image.
     cv2.imshow("Detected Pupil", processed)
 
-
-eyes = np.array([])
-
-def targetEyes(coordenadas):
-    i = 0
-    j = 0
-    x = []
-
-    while i <= 540:
-        x.append(coordenadas[i])
-
-        j += 1
-        if (j == 60 ):
-            print("array aqui  ",x)
-            eyes = np.array(np.asarray(x))
-            j = 0
-            x.clear()
-        i += 1
-        print("i " ,i)
-        if i == 540:
-            break
-    print(eyes)
 
 def detectPupil(image, threshold=101, minimum=5, maximum=50):
     """
@@ -193,58 +170,12 @@ cv2.imshow("Trackbars", np.zeros((3, 500), np.uint8))
 filename = "inputs/eye02.mov"
 capture = cv2.VideoCapture(filename)
 
-
-# tela cheia
-os.environ['SDL_VIDEO_CENTERED'] = '1'
-pygame.init()
-
-# Define algumas cores colors
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-
-# Seta a largura e a altura da tela utilizada [width, height](só funciona para windows)
-user32 = ctypes.windll.user32
-
-# 1366 768- tamanho da minha tela
-sizeX = user32.GetSystemMetrics(0)
-sizeY = user32.GetSystemMetrics(1)
-
-size = sizeX, sizeY
-screen = pygame.display.set_mode(size)
-
-nextx = int(sizeX / 2) - 20
-nexty = int(sizeY / 2)
-
-# nome da janela
-pygame.display.set_caption("Calibração")
-
-# Loop until the user clicks the close button.
-done = False
-
-# Used to manage how fast the screen updates
-clock = pygame.time.Clock()
-
-i = 2
-py = 0
-px = 0
-direita = True
-voltar = False
-
-# como o relógio do pygame trabalha em milissegundos, dividimos por 1000 para manter os 100 pixels por segundo
-velocity = 0.05
-
-# criamos uma instância do relógio
-clock = pygame.time.Clock()
-
 #armazena as coordenadas da animação
 coordenadas = []
-eyes = []
+global done
+done = True
 # -------- Main Program Loop -----------
-while True :
-    # Get the detection parameters values.
-    threshold = trackbarsValues["threshold"]
-    minimum = trackbarsValues["minimum"]
-    maximum = trackbarsValues["maximum"]
+while done:
     retval, frame = capture.read()
 
     # Check if there is a valid frame.
@@ -253,8 +184,12 @@ while True :
         capture.set(cv2.CAP_PROP_POS_FRAMES, 0)
         continue
 
-    # Pupil detection.
+    # Get the detection parameters values.
+    threshold = trackbarsValues["threshold"]
+    minimum = trackbarsValues["minimum"]
+    maximum = trackbarsValues["maximum"]
 
+    # Pupil detection.
     ellipses, centers, bestPupilID = detectPupil(frame, threshold, minimum, maximum)
 
     # Show the detected pupils.
