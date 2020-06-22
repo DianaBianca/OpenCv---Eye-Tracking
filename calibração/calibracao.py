@@ -59,15 +59,17 @@ def showDetectedPupil(image, threshold, ellipses=None, centers=None, bestPupilID
         if center[0] != -1 and center[1] != -1:
             cv2.circle(processed, (int(center[0]), int(center[1])), 5, (0, 255, 0), -1)
             eyes.setVet(int(center[0]), int(center[1]))
-            print("VALUES -----> ", int(center[0]), " , ", int(center[1]))
+            #print("VALUES -----> ", int(center[0]), " , ", int(center[1]))
 
             if (eyes.tamanho() >= 540):
+                print(" 540 indices ok ")
                 done = True
 
 
     # Show the processed image.
     cv2.imshow("Detected Pupil", processed)
     if done == True:
+        print("Acabou o laço")
         global vetEyes
         vetEyes = eyes.getVet()
         capture.release()
@@ -134,9 +136,6 @@ def detectPupil(image, threshold=101, minimum=5, maximum=50):
         prop = IAMLTools.getContourProperties(cnt, ["Circularity"])
         circularity = prop["Circularity"]
         curva = cv2.arcLength(cnt, True)
-        print("curvatura", curva)
-        print("circulo  ", circularity)
-        print("area  ", area)
 
         if (abs(1. - circularity) < abs(1. - BestCircularity)):
 
@@ -197,13 +196,8 @@ while True:
     # Show the detected pupils.
     showDetectedPupil(frame, threshold, ellipses, centers, bestPupilID)
 
-    # Display the captured frame.
-    # cv2.imshow("Eye Image", frame)
     if cv2.waitKey(33) & 0xFF == ord("q"):
         break
 
-# When everything done, release the capture object.
-capture.release()
-cv2.destroyAllWindows()
 print("olhosss -> ",vetEyes)
 
