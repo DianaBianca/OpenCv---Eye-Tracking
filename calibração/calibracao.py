@@ -15,6 +15,18 @@ import os
 import matplotlib.pyplot as plt
 #################################################################################
 
+class vetorEyes:
+    eyes = []
+
+    def setVet(self, x, y):
+        self.eyes.append([int(x), int(y)])
+        print(self.eyes)
+
+    def getVet(self):
+        return self.eyes
+
+    def tamanho(self):
+        return self.eyes.__len__()
 
 ################################ FUNCTIONS ######################################
 def onValuesChange(self, dummy=None):
@@ -31,6 +43,8 @@ def showDetectedPupil(image, threshold, ellipses=None, centers=None, bestPupilID
     Given an image and some eye feature coordinates, show the processed image.
     """
     # Copy the input image.
+    eyes = vetorEyes()
+    done = False
     processed = image.copy()
     if (len(processed.shape) == 2):
         processed = cv2.cvtColor(processed, cv2.COLOR_GRAY2BGR)
@@ -44,11 +58,20 @@ def showDetectedPupil(image, threshold, ellipses=None, centers=None, bestPupilID
 
         if center[0] != -1 and center[1] != -1:
             cv2.circle(processed, (int(center[0]), int(center[1])), 5, (0, 255, 0), -1)
-            #print("VALUES -----> ", int(center[0]), " , ", int(center[1]))
+            eyes.setVet(int(center[0]), int(center[1]))
+            print("VALUES -----> ", int(center[0]), " , ", int(center[1]))
+
+            if (eyes.tamanho() >= 540):
+                done = True
+
 
     # Show the processed image.
     cv2.imshow("Detected Pupil", processed)
-
+    if done == True:
+        global vetEyes
+        vetEyes = eyes.getVet()
+        capture.release()
+        cv2.destroyAllWindows()
 
 def detectPupil(image, threshold=101, minimum=5, maximum=50):
     """
@@ -77,11 +100,8 @@ def detectPupil(image, threshold=101, minimum=5, maximum=50):
     _, thres = cv2.threshold(blur, threshold, 255, cv2.THRESH_BINARY_INV)
 
     cls = cv2.morphologyEx(thres, cv2.MORPH_OPEN, kernel, iterations=1)
-    # dilation = cv2.dilate(cls,kernel,iterations = 1)
-    # erosion = cv2.erode(dilation, kernel, iterations = 1)
-    # dilatacao = cv2.dilate(thres,kernel, iterations = 1 )
     # Show the threshould image.
-    cv2.imshow("Threshold", thres)
+    #cv2.imshow("Threshold", thres)
 
     # Find blobs in the input image.
     contours, hierarchy = cv2.findContours(thres, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -155,8 +175,6 @@ cv2.imshow("Trackbars", np.zeros((3, 500), np.uint8))
 filename = "inputs/eye02.mov"
 capture = cv2.VideoCapture(filename)
 
-# This repetion will run while there is a new frame in the video file or
-# while the user do not press the "q" (quit) keyboard button.
 while True:
     # Capture frame-by-frame.
     retval, frame = capture.read()
@@ -187,47 +205,5 @@ while True:
 # When everything done, release the capture object.
 capture.release()
 cv2.destroyAllWindows()
+print("olhosss -> ",vetEyes)
 
-
-#coordenadas dos olhos
-eyes = np.array([[0, 0, 1],
-                 [0.25, 0, 1],
-                 [0.5, 0, 1],
-                 [0, 0.25, 1],
-                 [0.25, 0.25, 1],
-                 [0.5, 0.25, 1],
-                 [0, 0.50, 1],
-                 [0.25, 0.50, 1],
-                 [0.5, 0.50, 1]])
-
-tamanhofixo = 60  # tamanho dos targets
-
-# plt.scatter(eyes[:,0],eyes[:,1], color='blue', s=tamanhofixo)
-plt.scatter(targets[:, 0], targets[:, 1], color='red', s=tamanhofixo)
-
-equation = np.ones((9, 6))  # 6 equações e 9 alvos
-
-# pegar cada coordenada do olho e realizar a equação
-for i, eye in enumerate(eyes):
-    equation[i, :-1] = [eye[0] ** 2, eye[1] ** 2, eye[0] * eye[1], eye[0], eye[1]]
-
-coeffsX = np.linalg.pinv(equation).dot(targets[:, 0])
-coeffsY = np.linalg.pinv(equation).dot(targets[:, 1])
-
-M = np.vstack((coeffsX, coeffsY))
-
-eye = np.array([0.25, 0.15])
-
-# Gaze estimation method
-gaze = M.dot([eye[0] ** 2, eye[1] ** 2, eye[0] * eye[1], eye[0], eye[1], 1])
-
-print(gaze)
-
-a = gaze[0]
-b = gaze[1]
-
-plt.scatter(a, b, color='black', s=200)
-
-plt.xlabel("x")
-plt.ylabel("y")
-plt.show()
