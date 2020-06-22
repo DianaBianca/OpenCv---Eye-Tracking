@@ -14,7 +14,8 @@ import time
 import os
 import matplotlib.pyplot as plt
 #################################################################################
-
+global done
+done = False
 class vetorEyes:
     eyes = []
 
@@ -44,7 +45,7 @@ def showDetectedPupil(image, threshold, ellipses=None, centers=None, bestPupilID
     """
     # Copy the input image.
     eyes = vetorEyes()
-    done = False
+
     processed = image.copy()
     if (len(processed.shape) == 2):
         processed = cv2.cvtColor(processed, cv2.COLOR_GRAY2BGR)
@@ -61,19 +62,17 @@ def showDetectedPupil(image, threshold, ellipses=None, centers=None, bestPupilID
             eyes.setVet(int(center[0]), int(center[1]))
             #print("VALUES -----> ", int(center[0]), " , ", int(center[1]))
 
-            if (eyes.tamanho() >= 540):
+            if (eyes.tamanho() == 540):
                 print(" 540 indices ok ")
                 done = True
-
+            if done == True:
+                print("Acabou o laço")
+                global vetEyes
+                vetEyes = eyes.getVet()
 
     # Show the processed image.
     cv2.imshow("Detected Pupil", processed)
-    if done == True:
-        print("Acabou o laço")
-        global vetEyes
-        vetEyes = eyes.getVet()
-        capture.release()
-        cv2.destroyAllWindows()
+
 
 def detectPupil(image, threshold=101, minimum=5, maximum=50):
     """
@@ -174,7 +173,7 @@ cv2.imshow("Trackbars", np.zeros((3, 500), np.uint8))
 filename = "inputs/eye02.mov"
 capture = cv2.VideoCapture(filename)
 
-while True:
+while done != True:
     # Capture frame-by-frame.
     retval, frame = capture.read()
 
@@ -199,5 +198,7 @@ while True:
     if cv2.waitKey(33) & 0xFF == ord("q"):
         break
 
+capture.release()
+cv2.destroyAllWindows()
 print("olhosss -> ",vetEyes)
 
