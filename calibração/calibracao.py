@@ -37,6 +37,7 @@ class myThread(threading.Thread):
         self.counter = counter
 
     def run(self):
+        global pause
         i = 2
         py = 0
         px = 0
@@ -44,7 +45,6 @@ class myThread(threading.Thread):
         voltar = False
         done = False
         vet = vetorTargets()
-        global pause
         while done == False:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -65,14 +65,16 @@ class myThread(threading.Thread):
 
                 vet.setVet(px, py)
 
-                # time.sleep(5) #tempo para a calibração de cada ponto
+                pause = True
+                time.sleep(5) #tempo para a calibração de cada ponto
+                pause = False
 
                 if (i < 4):
                     px += nextx
 
                 elif (i < 7):
                     if (i == 4):
-                        print('i == 4')
+                        #print('i == 4')
                         py += nexty - 20
 
                     else:
@@ -81,7 +83,7 @@ class myThread(threading.Thread):
                 elif (i > 6):
                     if (i == 7):
                         py += nexty - 30
-                        print('i == 7')
+                        #print('i == 7')
 
                     else:
                         px += nextx
@@ -92,10 +94,10 @@ class myThread(threading.Thread):
         global vetTarget
         vetTarget = vet.getVet()
 
-#####################################################################################
+############################### FIM THREAD ANIMAÇÂO ####################################
 
 
-
+############################## DETECÇÂO DE PUPILA ######################################
 class vetorEyes:
     eyes = []
 
@@ -109,7 +111,7 @@ class vetorEyes:
     def tamanho(self):
         return self.eyes.__len__()
 
-################################ FUNCTIONS ######################################
+################################ FUNCTIONS #####################################
 def onValuesChange(self, dummy=None):
     """ Handle updates when slides have changes."""
     global trackbarsValues
@@ -139,6 +141,7 @@ def showDetectedPupil(image, threshold, ellipses=None, centers=None, bestPupilID
 
         if center[0] != -1 and center[1] != -1:
             cv2.circle(processed, (int(center[0]), int(center[1])), 5, (0, 255, 0), -1)
+            #if pause == False :
             eyes.setVet(int(center[0]), int(center[1]))
 
             if (eyes.tamanho() >= 540):
@@ -222,7 +225,7 @@ def detectPupil(image, threshold=101, minimum=5, maximum=50):
 
     # Return the final result.
     return ellipses, centers, bestPupilID
-
+############################## FIM DETECÇÂO DE PUPILA ######################################
 
 # Define the trackbars.
 trackbarsValues = {}
@@ -288,7 +291,7 @@ thread1 = myThread(1, "Thread-1", 1)
 
 # Start new Threads
 (thread1.start())
-
+global pause
 # Add threads to thread list
 threads.append(thread1)
 
@@ -306,8 +309,6 @@ while acabou == False:
     threshold = trackbarsValues["threshold"]
     minimum = trackbarsValues["minimum"]
     maximum = trackbarsValues["maximum"]
-    # area  = trackbarsValues["area"]
-
 
     # Pupil detection.
     ellipses, centers, bestPupilID = detectPupil(frame, threshold, minimum, maximum)
@@ -330,3 +331,4 @@ for t in threads:
 pygame.quit()
 
 targets = np.array(np.asarray(vetTarget))
+eyes =  np.array(np.asarray(vetEyes))
