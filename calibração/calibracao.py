@@ -337,8 +337,8 @@ print("targets \n",targets)
 j = 1
 olhos = []
 teste = []
-for j in vetorEyes:
-    teste = vetorEyes[j]
+for j in vetEyes:
+    teste = vetEyes[j]
 
     if teste.__len__() == 60:
         olhos.append(teste)
