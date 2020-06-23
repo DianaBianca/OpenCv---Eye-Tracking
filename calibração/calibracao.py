@@ -21,7 +21,7 @@ class vetorTargets:
 
     def setVet(self, px, py):
         self.target.append([int(px), int(py)])
-        print(self.target)
+        #print(self.target)
 
     def getVet(self):
         return self.target
@@ -323,7 +323,7 @@ while acabou == False:
 
 capture.release()
 cv2.destroyAllWindows()
-print("olhosss -> ",vetEyes)
+#print("olhosss -> ",vetEyes)
 
 for t in threads:
     t.join()
@@ -331,4 +331,5 @@ for t in threads:
 pygame.quit()
 
 targets = np.array(np.asarray(vetTarget))
+print("targets /n",targets)
 eyes =  np.array(np.asarray(vetEyes))
