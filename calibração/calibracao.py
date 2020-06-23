@@ -333,20 +333,20 @@ pygame.quit()
 targets = np.array(np.asarray(vetTarget))
 print("targets \n",targets)
 
-print("len vet eyes --->",vetEyes.__len__())
 j = 1
 olhos = []
 teste = []
-while j != 540:
+while j < 541:
     teste.append(vetEyes[j])
-    #print(teste)
-    #print("teste len - >", teste.__len__() )
-    if teste.__len__() == 60:
-        print(" 60 indices ")
+
+    if j == 540:
+        olhos.append(teste)
+        eyes = np.array(np.asarray(olhos))
+
+    elif j % 60 == 0:
         olhos.append(teste)
         teste.clear()
     j+=1
 
-
-eyes =  np.array(np.asarray(olhos))
+print("eyes  ",eyes)
 print("eyes  \n",eyes.__len__())
