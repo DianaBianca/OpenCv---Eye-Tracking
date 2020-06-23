@@ -337,11 +337,14 @@ print("targets \n",targets)
 j = 1
 olhos = []
 teste = []
-for j in vetEyes:
-    teste = vetEyes[j]
-
+while j != 540:
+    teste.append(vetEyes[j])
+    print(teste)
+    print("teste len - >", teste.__len__() )
     if teste.__len__() == 60:
-        olhos.append(teste)
+        print(" 60 indices ")
+        olhos.append("if -->", teste)
+        print(olhos)
         teste.clear()
     j+=1
 
