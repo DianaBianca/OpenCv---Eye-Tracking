@@ -66,7 +66,7 @@ class myThread(threading.Thread):
                 vet.setVet(px, py)
 
                 pause = True
-                time.sleep(5) #tempo para a calibração de cada ponto
+                #time.sleep(5) #tempo para a calibração de cada ponto
                 pause = False
 
                 if (i < 4):
@@ -333,8 +333,18 @@ pygame.quit()
 targets = np.array(np.asarray(vetTarget))
 print("targets \n",targets)
 
-for i in vetorEyes:
-    
 
-eyes =  np.array(np.asarray(vetEyes))
+j = 1
+olhos = []
+teste = []
+for j in vetorEyes:
+    teste = vetorEyes[j]
+
+    if teste.__len__() == 60:
+        olhos.append(teste)
+        teste.clear()
+    j+=1
+
+
+eyes =  np.array(np.asarray(olhos))
 print("eyes  \n",eyes)
