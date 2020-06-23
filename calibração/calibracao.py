@@ -331,5 +331,10 @@ for t in threads:
 pygame.quit()
 
 targets = np.array(np.asarray(vetTarget))
-print("targets /n",targets)
+print("targets \n",targets)
+
+for i in vetorEyes:
+    
+
 eyes =  np.array(np.asarray(vetEyes))
+print("eyes  \n",eyes)
