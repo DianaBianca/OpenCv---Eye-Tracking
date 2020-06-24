@@ -66,7 +66,7 @@ class myThread(threading.Thread):
                 vet.setVet(px, py)
 
                 pause = True
-                time.sleep(5) #tempo para a calibração de cada ponto
+                #time.sleep(5) #tempo para a calibração de cada ponto
                 pause = False
 
                 if (i < 4):
@@ -336,6 +336,7 @@ print("targets \n",targets)
 j = 1
 olhos = []
 teste = []
+
 while j < 541:
     teste.append(vetEyes[j])
 
@@ -350,3 +351,33 @@ while j < 541:
 
 print("eyes  ",eyes)
 print("eyes  \n",eyes.__len__())
+
+coordX = []
+coordY = []
+i = 0
+j = 0
+#print("AQUIII ", eyes[0][0][0])
+
+while i  <  9 :
+    while j < 60 :
+        coordX.append(eyes[i][j][0])
+        #print("VALOR DE X NO LAÇO ->",coordX)
+        coordY.append(eyes[i][j][1])
+        #print("VALOR DE Y NO LAÇO  ->", coordY)
+        j += 1
+    i += 1
+
+print("VALOR DE X  ->",coordX)
+print("VALOR DE Y  ->", coordY)
+
+mediaX = int(np.mean(coordX))
+mediaY = int(np.mean(coordY))
+
+print("Media das coordenadas - > X: " , mediaX, ", Y: ", mediaY )
+
+dpX = int(np.std(coordX))
+dpY = int(np.std(coordY))
+
+print("Desvio padrão das coordenadas - > X: " , dpX, ", Y: ", dpY )
+
+
