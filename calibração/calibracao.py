@@ -66,7 +66,7 @@ class myThread(threading.Thread):
                 vet.setVet(px, py)
 
                 pause = True
-                #time.sleep(5) #tempo para a calibração de cada ponto
+                time.sleep(5) #tempo para a calibração de cada ponto
                 pause = False
 
                 if (i < 4):
