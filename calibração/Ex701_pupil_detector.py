@@ -15,6 +15,9 @@ def onValuesChange(self, dummy=None):
     trackbarsValues["maximum"]   = cv2.getTrackbarPos("maximum", "Trackbars")
     #trackbarsValues["area"]  = cv2.getTrackbarPos("area", "Trackbars")
 
+def valores():
+    print(vetTarget)
+    return vetTarget
 
 class vetorEyes:
     eyes = []
@@ -61,8 +64,8 @@ def showDetectedPupil(image, threshold, ellipses=None, centers=None, bestPupilID
     if eyes.tamanho() == 60:
         print('aqui')
         vetTarget = eyes.getVet()
+        valores(vetTarget)
         eyes.limpar()
-
     # Show the processed image.
     #cv2.imshow("Detected Pupil", processed)
 
@@ -193,7 +196,7 @@ while True:
 
     # Show the detected pupils.
     showDetectedPupil(frame, threshold, ellipses, centers, bestPupilID)
-    print(vetTarget)
+    #print("array  ", x)
     
     # Display the captured frame.
     #cv2.imshow("Eye Image", frame)
