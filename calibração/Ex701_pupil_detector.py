@@ -38,6 +38,8 @@ def showDetectedPupil(image, threshold, ellipses=None, centers=None, bestPupilID
     Given an image and some eye feature coordinates, show the processed image.
     ""
     """
+
+    global vetTarget
     eyes = vetorEyes()
     # Copy the input image.
     processed = image.copy()
@@ -171,7 +173,6 @@ capture = cv2.VideoCapture(filename)
 # while the user do not press the "q" (quit) keyboard button.
 while True:
 
-    global vetTarget
     # Capture frame-by-frame.
     retval, frame = capture.read()
 
