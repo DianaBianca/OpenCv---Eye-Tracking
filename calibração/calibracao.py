@@ -27,82 +27,13 @@ class vetorTargets:
         return self.target
 
 
-class myThread(threading.Thread):
-    global vet
-
-    def __init__(self, threadID, name, counter):
-        threading.Thread.__init__(self)
-        self.threadID = threadID
-        self.name = name
-        self.counter = counter
-
-    def run(self):
-        global pause
-        i = 2
-        py = 0
-        px = 0
-        direita = True
-        voltar = False
-        done = False
-        vet = vetorTargets()
-        while done == False:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    done = True
-            dt = clock.tick(20)
-
-            while i != 11:
-
-                event = pygame.event.poll()
-
-                if event.type == pygame.QUIT:
-                    break
-                screen.fill(BLACK)
-
-                pygame.draw.rect(screen, (255, 255, 0), [px, py, 40, 40])
-
-                pygame.display.flip()
-
-                vet.setVet(px, py)
-
-                pause = True
-                #time.sleep(5) #tempo para a calibração de cada ponto
-                pause = False
-
-                if (i < 4):
-                    px += nextx
-
-                elif (i < 7):
-                    if (i == 4):
-                        #print('i == 4')
-                        py += nexty - 20
-
-                    else:
-                        px -= nextx
-
-                elif (i > 6):
-                    if (i == 7):
-                        py += nexty - 30
-                        #print('i == 7')
-
-                    else:
-                        px += nextx
-                i += 1
-
-            done = True
-
-        global vetTarget
-        vetTarget = vet.getVet()
-
-############################### FIM THREAD ANIMAÇÂO ####################################
-
 
 ############################## DETECÇÂO DE PUPILA ######################################
 class vetorEyes:
     eyes = []
 
-    def setVet(self, x, y):
-        self.eyes.append([int(x), int(y)])
+    def setVet(self, vetor):
+        self.eyes.append([vetor])
         #print(self.eyes)
 
     def getVet(self):
@@ -142,16 +73,13 @@ def showDetectedPupil(image, threshold, ellipses=None, centers=None, bestPupilID
         if center[0] != -1 and center[1] != -1:
             cv2.circle(processed, (int(center[0]), int(center[1])), 5, (0, 255, 0), -1)
             #if pause == False :
-            eyes.setVet(int(center[0]), int(center[1]))
 
-            if (eyes.tamanho() >= 540):
-                print(" 540 indices ok ")
-                done = True
-        if done == True:
+            olhos =  []
 
-            print("Acabou o laço")
-            global vetEyes
-            vetEyes = eyes.getVet()
+            while olhos.__len__() <= 60 :
+
+
+    return olhos
 
 
     # Show the processed image.
@@ -272,7 +200,7 @@ nextx = int(sizeX / 2) - 20
 nexty = int(sizeY / 2)
 
 # nome da janela
-pygame.display.set_caption("Calibração")
+#pygame.display.set_caption("Calibração")
 
 # Loop until the user clicks the close button.
 done = False
@@ -286,14 +214,6 @@ velocity = 0.05
 # criamos uma instância do relógio
 clock = pygame.time.Clock()
 
-# Create new threads
-thread1 = myThread(1, "Thread-1", 1)
-
-# Start new Threads
-(thread1.start())
-global pause
-# Add threads to thread list
-threads.append(thread1)
 
 while acabou == False:
     # Capture frame-by-frame.
@@ -315,69 +235,3 @@ while acabou == False:
 
     # Show the detected pupils.
     showDetectedPupil(frame, threshold, ellipses, centers, bestPupilID)
-    if done == True:
-        acabou = True
-        break
-    if cv2.waitKey(33) & 0xFF == ord("q"):
-        break
-
-capture.release()
-cv2.destroyAllWindows()
-#print("olhosss -> ",vetEyes)
-
-for t in threads:
-    t.join()
-
-pygame.quit()
-
-targets = np.array(np.asarray(vetTarget))
-print("targets \n",targets)
-
-j = 1
-olhos = []
-teste = []
-
-while j < 541:
-    teste.append(vetEyes[j])
-
-    if j == 540:
-        olhos.append(teste)
-        eyes = np.array(np.asarray(olhos))
-
-    elif j % 60 == 0:
-        olhos.append(teste)
-        teste.clear()
-    j+=1
-
-print("eyes  ",eyes)
-print("eyes  \n",eyes.__len__())
-
-coordX = []
-coordY = []
-i = 0
-j = 0
-#print("AQUIII ", eyes[0][0][0])
-
-while i  <  9 :
-    while j < 60 :
-        coordX.append(eyes[i][j][0])
-        #print("VALOR DE X NO LAÇO ->",coordX)
-        coordY.append(eyes[i][j][1])
-        #print("VALOR DE Y NO LAÇO  ->", coordY)
-        j += 1
-    i += 1
-
-print("VALOR DE X  ->",coordX)
-print("VALOR DE Y  ->", coordY)
-
-mediaX = int(np.mean(coordX))
-mediaY = int(np.mean(coordY))
-
-print("Media das coordenadas - > X: " , mediaX, ", Y: ", mediaY )
-
-dpX = int(np.std(coordX))
-dpY = int(np.std(coordY))
-
-print("Desvio padrão das coordenadas - > X: " , dpX, ", Y: ", dpY )
-
-

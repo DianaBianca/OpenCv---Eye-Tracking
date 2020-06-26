@@ -1,24 +1,3 @@
-#<!--------------------------------------------------------------------------->
-#<!--                   ITU - IT University of Copenhage                    -->
-#<!--                      Computer Science Department                      -->
-#<!--                    Eye Information Research Group                     -->
-#<!--       Introduction to Image Analysis and Machine Learning Course      -->
-#<!-- File       : Ex701_pupil_detector.py                                  -->
-#<!-- Description: Script to detect pupils in eye images using binary       -->
-#<!--            : images and blob detection                                -->
-#<!-- Author     : Fabricio Batista Narcizo                                 -->
-#<!--            : Rued Langgaards Vej 7 - 4D25 - DK-2300 - Kobenhavn S.    -->
-#<!--            : narcizo[at]itu[dot]dk                                    -->
-#<!-- Responsable: Dan Witzner Hansen (witzner[at]itu[dot]dk)               -->
-#<!--              Fabricio Batista Narcizo (fabn[at]itu[dot]dk)            -->
-#<!-- Information: No additional information                                -->
-#<!-- Date       : 12/03/2018                                               -->
-#<!-- Change     : 12/03/2018 - Creation of this script                     -->
-#<!-- Review     : 12/03/2018 - Finalized                                   -->
-#<!--------------------------------------------------------------------------->
-
-__version__ = "$Revision: 2018031201 $"
-
 ########################################################################
 import cv2
 import math
@@ -36,10 +15,30 @@ def onValuesChange(self, dummy=None):
     trackbarsValues["maximum"]   = cv2.getTrackbarPos("maximum", "Trackbars")
     #trackbarsValues["area"]  = cv2.getTrackbarPos("area", "Trackbars")
 
+
+class vetorEyes:
+    eyes = []
+
+    def setVet(self, x,y):
+        self.eyes.append([x,y])
+        #print(self.eyes)
+
+    def getVet(self):
+        return self.eyes
+
+    def tamanho(self):
+        return self.eyes.__len__()
+
+    def limpar(self):
+        self.eyes.clear()
+
+
 def showDetectedPupil(image, threshold, ellipses=None, centers=None, bestPupilID=None):
     """"
     Given an image and some eye feature coordinates, show the processed image.
+    ""
     """
+    eyes = vetorEyes()
     # Copy the input image.
     processed = image.copy()
     if (len(processed.shape) == 2):
@@ -54,10 +53,16 @@ def showDetectedPupil(image, threshold, ellipses=None, centers=None, bestPupilID
         
         if center[0] != -1 and center[1] != -1:
             cv2.circle(processed, (int(center[0]), int(center[1])), 5, (0, 255, 0), -1)
-            print("VALUES -----> ",int(center[0]), " , " ,int(center[1]))
+            eyes.setVet(int(center[0]), int(center[1]))
+            #print("tamanho do vetor ", eyes.tamanho())
+
+    if eyes.tamanho() == 60:
+        print('aqui')
+        vetTarget = eyes.getVet()
+        eyes.limpar()
 
     # Show the processed image.
-    cv2.imshow("Detected Pupil", processed)
+    #cv2.imshow("Detected Pupil", processed)
 
 def detectPupil(image, threshold=101, minimum=5, maximum=50):
     """
@@ -87,11 +92,10 @@ def detectPupil(image, threshold=101, minimum=5, maximum=50):
     _, thres = cv2.threshold(blur, threshold, 255,cv2.THRESH_BINARY_INV)
     
     cls = cv2.morphologyEx(thres,cv2.MORPH_OPEN,kernel, iterations = 1)
-    #dilation = cv2.dilate(cls,kernel,iterations = 1)
-    #erosion = cv2.erode(dilation, kernel, iterations = 1)
-    #dilatacao = cv2.dilate(thres,kernel, iterations = 1 )
+
+
     # Show the threshould image.
-    cv2.imshow("Threshold", thres)
+    #cv2.imshow("Threshold", thres)
     
     # Find blobs in the input image.
     contours, hierarchy= cv2.findContours(thres, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -123,10 +127,7 @@ def detectPupil(image, threshold=101, minimum=5, maximum=50):
         
         prop = IAMLTools.getContourProperties(cnt, ["Circularity"])
         circularity = prop["Circularity"]
-        curva = cv2.arcLength(cnt,True)   
-        print("curvatura",curva)
-        print("circulo  ",circularity)
-        print("area  ",area)
+        curva = cv2.arcLength(cnt,True)
         
         if(abs(1. - circularity) < abs(1. - BestCircularity)):
             
@@ -169,6 +170,8 @@ capture = cv2.VideoCapture(filename)
 # This repetion will run while there is a new frame in the video file or
 # while the user do not press the "q" (quit) keyboard button.
 while True:
+
+    global vetTarget
     # Capture frame-by-frame.
     retval, frame = capture.read()
 
@@ -189,6 +192,7 @@ while True:
 
     # Show the detected pupils.
     showDetectedPupil(frame, threshold, ellipses, centers, bestPupilID)
+    print(vetTarget)
     
     # Display the captured frame.
     #cv2.imshow("Eye Image", frame)
