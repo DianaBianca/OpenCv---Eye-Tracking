@@ -5,6 +5,10 @@ import numpy as np
 import IAMLTools
 import imutils
 import BlobProperties
+import pygame
+import ctypes
+import time
+import os
 ########################################################################
 
 def onValuesChange(self, dummy=None):
@@ -15,9 +19,10 @@ def onValuesChange(self, dummy=None):
     trackbarsValues["maximum"]   = cv2.getTrackbarPos("maximum", "Trackbars")
     #trackbarsValues["area"]  = cv2.getTrackbarPos("area", "Trackbars")
 
-def valores():
+def valores(vet):
     print(vetTarget)
-    return vetTarget
+    #return vetTarget
+
 
 class vetorEyes:
     eyes = []
@@ -195,8 +200,8 @@ while True:
     ellipses, centers, bestPupilID = detectPupil(frame, threshold, minimum, maximum)
 
     # Show the detected pupils.
-    showDetectedPupil(frame, threshold, ellipses, centers, bestPupilID)
-    #print("array  ", x)
+    x = showDetectedPupil(frame, threshold, ellipses, centers, bestPupilID)
+    print("array  ", x)
     
     # Display the captured frame.
     #cv2.imshow("Eye Image", frame)
