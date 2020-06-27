@@ -64,8 +64,9 @@ def showDetectedPupil(image, threshold, ellipses=None, centers=None, bestPupilID
     if eyes.tamanho() == 60:
         #print('aqui')
         vetTarget = eyes.getVet()
-        valores(vetTarget)
-        eyes.limpar()
+
+        return eyes.getVet()
+    eyes.limpar()
     # Show the processed image.
     #cv2.imshow("Detected Pupil", processed)
 
@@ -95,7 +96,6 @@ def detectPupil(image, threshold=101, minimum=5, maximum=50):
     
     # Create a binary image.
     _, thres = cv2.threshold(blur, threshold, 255,cv2.THRESH_BINARY_INV)
-    
     cls = cv2.morphologyEx(thres,cv2.MORPH_OPEN,kernel, iterations = 1)
 
 
@@ -179,17 +179,21 @@ while True:
     # Capture frame-by-frame.
     retval, frame = capture.read()
 
+    # Check if there is a valid frame.
+    if not retval:
+        # Restart the video.
+        capture.set(cv2.CAP_PROP_POS_FRAMES, 0)
+        continue
+
     # Get the detection parameters values.
     threshold = trackbarsValues["threshold"]
     minimum   = trackbarsValues["minimum"]
     maximum   = trackbarsValues["maximum"]
-    #area  = trackbarsValues["area"]  
+    #area  = trackbarsValues["area"]
     
     # Pupil detection.
     ellipses, centers, bestPupilID = detectPupil(frame, threshold, minimum, maximum)
 
-    # Show the detected pupils.
-    showDetectedPupil(frame, threshold, ellipses, centers, bestPupilID)
 
 
 # When everything done, release the capture object.
