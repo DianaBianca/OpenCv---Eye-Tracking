@@ -13,7 +13,7 @@ import os
 import matplotlib.pyplot as plt
 import threading
 
-############################## DETECÇÂO DE PUPILA ######################################
+############################## DETECÇÂO DE PUPILA ################################
 class vetorEyes:
     eyes = []
 
@@ -27,7 +27,7 @@ class vetorEyes:
     def tamanho(self):
         return self.eyes.__len__()
 
-################################ FUNCTIONS #####################################
+################################ FUNCTIONS ######################################
 def onValuesChange(self, dummy=None):
     """ Handle updates when slides have changes."""
     global trackbarsValues
@@ -195,7 +195,9 @@ pygame.display.set_caption("Calibração")
 #GET POSITION
 def _getPupilVector():
     vet = []
-    for x in range(60):
+    done = True
+    x = 0 
+    while done:
     # Capture frame-by-frame.
         retval, frame = capture.read()
 
@@ -218,6 +220,9 @@ def _getPupilVector():
             center = centers[bestPupilID]
             if center[0] != -1 and center[1] != -1:
                 vet.append([int(center[0]), int(center[1])])
+                x += 1
+        if (x == 60):
+            carregado = False
     return vet
 
 class vetorTargets:
