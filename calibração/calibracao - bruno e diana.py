@@ -196,7 +196,7 @@ pygame.display.set_caption("Calibração")
 def _getPupilVector():
     vet = []
     done = True
-    x = 0 
+    x = 1 
     while done:
     # Capture frame-by-frame.
         retval, frame = capture.read()
@@ -221,9 +221,12 @@ def _getPupilVector():
             if center[0] != -1 and center[1] != -1:
                 vet.append([int(center[0]), int(center[1])])
                 x += 1
+                print("i",x)
         if (x == 60):
+            print("aqui AAAAAAAAAAAAAAAAAAAAAAA")
             carregado = False
-    return vet
+            x = 0
+            return vet
 
 class vetorTargets:
     target = []
@@ -245,6 +248,7 @@ direita = True
 voltar = False
 done = False
 vet = vetorTargets()
+targets = []
 vetFinal = []
 for x in range(9):
     if(i == 0):
@@ -269,9 +273,10 @@ for x in range(9):
     screen.fill(BLACK)
     pygame.draw.rect(screen, (255, 255, 0), [px, py, 40, 40])
     pygame.display.flip()
-    time.sleep(2)
+    time.sleep(3)
     #CAPTURA 60 POSIÇÕES NO PONTO ATUAL DA ANIMAÇÃO
     vetFinal.append(_getPupilVector())
+    targets.vet.
     i+= 1;
 pygame.quit()
 global vetTarget
