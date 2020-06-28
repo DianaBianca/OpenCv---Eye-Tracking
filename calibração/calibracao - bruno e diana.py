@@ -239,8 +239,7 @@ class vetorTargets:
         return self.target
 
 ## INICIO ANIMAÇÃO COM DETECÇÃO DA PUPILA ##
-global vet
-#global pause
+
 i = 0
 py = 0
 px = 0
@@ -248,8 +247,8 @@ direita = True
 voltar = False
 done = False
 #vet = vetorTargets()
-targets = []
-vetFinal = []
+targetscoord = []
+eyes = []
 for x in range(9):
     if(i == 0):
         px = 0
@@ -273,13 +272,51 @@ for x in range(9):
     screen.fill(BLACK)
     pygame.draw.rect(screen, (255, 255, 0), [px, py, 40, 40])
     pygame.display.flip()
-    time.sleep(3)
+    #time.sleep(2)
     #CAPTURA 60 POSIÇÕES NO PONTO ATUAL DA ANIMAÇÃO
-    vetFinal.append(_getPupilVector())
-    targets.append([px,py])
+    eyes.append(_getPupilVector())
+    targetscoord.append([px,py])
     i+= 1;
 pygame.quit()
-#global vetTarget
-#vetTarget = vet.getVet()
-print("vet coordenadas -------" , vetFinal)
-print("vet targets -------",targets)
+print("vet coordenadas -------" , eyes)
+#print("vet coordenadas tamanho -------",eyes.__len__())
+#print("vet targets  -------",targetscoord)
+#print("vet targets tamanho -------",targetscoord.__len__())
+
+
+#coordenadas dos targets da animação
+targets = np.array(np.asarray(targetscoord))
+#print(targets)
+
+coordX = []
+coordY = []
+i = 0
+j = 0
+print("AQUIII ", eyes[0][0][0])
+
+print("AQUIII ", eyes[0][0][1])
+
+
+while i  <  9 :
+    while j < 60 :
+        coordX.append(eyes[i][j][0])
+        #print("VALOR DE X NO LAÇO ->",coordX)
+        coordY.append(eyes[i][j][1])
+        #print("VALOR DE Y NO LAÇO  ->", coordY)
+        j += 1
+    i += 1
+
+print("VALOR DE X  ->",coordX)
+print("VALOR DE Y  ->", coordY)
+
+mediaX = int(np.mean(coordX))
+mediaY = int(np.mean(coordY))
+
+print("Media das coordenadas - > X: " , mediaX, ", Y: ", mediaY )
+
+dpX = int(np.std(coordX))
+dpY = int(np.std(coordY))
+
+print("Desvio padrão das coordenadas - > X: " , dpX, ", Y: ", dpY )
+
+
