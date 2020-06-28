@@ -196,7 +196,7 @@ pygame.display.set_caption("Calibração")
 def _getPupilVector():
     vet = []
     done = True
-    x = 1 
+    x = 0
     while done:
     # Capture frame-by-frame.
         retval, frame = capture.read()
@@ -291,32 +291,33 @@ targets = np.array(np.asarray(targetscoord))
 coordX = []
 coordY = []
 i = 0
-j = 0
-print("AQUIII ", eyes[0][0][0])
-
-print("AQUIII ", eyes[0][0][1])
+print("AQUIII ", eyes[0].__len__())
 
 
-while i  <  9 :
+while i  == 0: #9 :#arrumar esse while, isso é só um teste para ver se o laço funciona direito
+    j = 0
     while j < 60 :
         coordX.append(eyes[i][j][0])
         #print("VALOR DE X NO LAÇO ->",coordX)
-        coordY.append(eyes[i][j][1])
+        #coordY.append(eyes[i][j][1])
         #print("VALOR DE Y NO LAÇO  ->", coordY)
+        mediaX = int(np.mean(coordX))
+        dpX = int(np.std(coordX))
+
         j += 1
-    i += 1
+    #i += 1
 
 print("VALOR DE X  ->",coordX)
-print("VALOR DE Y  ->", coordY)
+#print("VALOR DE Y  ->", coordY)
 
-mediaX = int(np.mean(coordX))
-mediaY = int(np.mean(coordY))
+#mediaX = int(np.mean(coordX))
+#mediaY = int(np.mean(coordY))
 
-print("Media das coordenadas - > X: " , mediaX, ", Y: ", mediaY )
+#print("Media das coordenadas - > X: " , mediaX, ", Y: ", mediaY )
 
-dpX = int(np.std(coordX))
-dpY = int(np.std(coordY))
+#dpX = int(np.std(coordX))
+#dpY = int(np.std(coordY))
 
-print("Desvio padrão das coordenadas - > X: " , dpX, ", Y: ", dpY )
+#print("Desvio padrão das coordenadas - > X: " , dpX, ", Y: ", dpY )
 
 
