@@ -278,36 +278,42 @@ for x in range(9):
     targetscoord.append([px,py])
     i+= 1;
 pygame.quit()
-print("vet coordenadas -------" , eyes)
-#print("vet coordenadas tamanho -------",eyes.__len__())
-#print("vet targets  -------",targetscoord)
-#print("vet targets tamanho -------",targetscoord.__len__())
-
 
 #coordenadas dos targets da animação
 targets = np.array(np.asarray(targetscoord))
 #print(targets)
 
 coordX = []
-coordY = []
-i = 0
+#coordY = []
+
 print("AQUIII ", eyes[0].__len__())
 
-
-while i  == 0: #9 :#arrumar esse while, isso é só um teste para ver se o laço funciona direito
+def valores (vet): #while i  == 0: #9 :#arrumar esse while, isso é só um teste para ver se o laço funciona direito
     j = 0
+    coordX=[]
     while j < 60 :
-        coordX.append(eyes[i][j][0])
-        #print("VALOR DE X NO LAÇO ->",coordX)
-        #coordY.append(eyes[i][j][1])
-        #print("VALOR DE Y NO LAÇO  ->", coordY)
-        mediaX = int(np.mean(coordX))
-        dpX = int(np.std(coordX))
-
+        coordX.append(vet[j][0])
         j += 1
-    #i += 1
 
-print("VALOR DE X  ->",coordX)
+    mediaX = int(np.mean(coordX))
+    dpX = int(np.std(coordX))
+
+    return mediaX, dpX
+
+
+i = 1
+for i in range(1,9):
+
+    media, dp = valores(eyes[i])
+    print("media e desvio padrao ", media, dp)
+    max = media + (dp * 2)
+    min = media - (dp * 2)
+    
+
+
+
+
+#print("VALOR DE X  ->",coordX)
 #print("VALOR DE Y  ->", coordY)
 
 #mediaX = int(np.mean(coordX))
