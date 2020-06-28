@@ -221,9 +221,9 @@ def _getPupilVector():
             if center[0] != -1 and center[1] != -1:
                 vet.append([int(center[0]), int(center[1])])
                 x += 1
-                print("i",x)
+                #print("i",x)
         if (x == 60):
-            print("aqui AAAAAAAAAAAAAAAAAAAAAAA")
+            #print("aqui AAAAAAAAAAAAAAAAAAAAAAA")
             carregado = False
             x = 0
             return vet
@@ -240,14 +240,14 @@ class vetorTargets:
 
 ## INICIO ANIMAÇÃO COM DETECÇÃO DA PUPILA ##
 global vet
-global pause
+#global pause
 i = 0
 py = 0
 px = 0
 direita = True
 voltar = False
 done = False
-vet = vetorTargets()
+#vet = vetorTargets()
 targets = []
 vetFinal = []
 for x in range(9):
@@ -276,10 +276,10 @@ for x in range(9):
     time.sleep(3)
     #CAPTURA 60 POSIÇÕES NO PONTO ATUAL DA ANIMAÇÃO
     vetFinal.append(_getPupilVector())
-    targets.vet.
+    targets.append([px,py])
     i+= 1;
 pygame.quit()
-global vetTarget
-vetTarget = vet.getVet()
-print(vetFinal)
-
+#global vetTarget
+#vetTarget = vet.getVet()
+print("vet coordenadas -------" , vetFinal)
+print("vet targets -------",targets)
