@@ -286,9 +286,9 @@ targets = np.array(np.asarray(targetscoord))
 coordX = []
 #coordY = []
 
-print("AQUIII ", eyes[0].__len__())
+#print("AQUIII ", eyes[0].__len__())
 
-def valores (vet): #while i  == 0: #9 :#arrumar esse while, isso é só um teste para ver se o laço funciona direito
+def valores(vet):
     j = 0
     coordX=[]
     while j < 60 :
@@ -301,14 +301,30 @@ def valores (vet): #while i  == 0: #9 :#arrumar esse while, isso é só um teste
     return mediaX, dpX
 
 
-i = 1
-for i in range(1,9):
+i = 0
+j= 0
+
+print("aquiii" , eyes[0])
+for i in range(0,9):
 
     media, dp = valores(eyes[i])
     print("media e desvio padrao ", media, dp)
     max = media + (dp * 2)
     min = media - (dp * 2)
-    
+    j=0
+    for indice in eyes[i]:
+        x = int(eyes[i][j][0])
+        print("valor de x")
+        if ( x < min or x > max):
+            print("removi --> ",eyes[i][j])
+            eyes[i].pop(j)
+            print("item removido")
+            print("agora o vetor é : \n", eyes[i])
+        j+=1
+        indice +=1
+
+    i += 1
+
 
 
 
