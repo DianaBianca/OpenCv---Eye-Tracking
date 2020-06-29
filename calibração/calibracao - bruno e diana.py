@@ -284,22 +284,47 @@ targets = np.array(np.asarray(targetscoord))
 #print(targets)
 
 coordX = []
-#coordY = []
-
-#print("AQUIII ", eyes[0].__len__())
 
 def valores(vet):
     j = 0
+
     coordX=[]
+    coordY = []
     while j < 60 :
         coordX.append(vet[j][0])
         j += 1
 
     mediaX = int(np.mean(coordX))
     dpX = int(np.std(coordX))
+    j = 0
+    while j < 60:
+        coordY.append(vet[j][1])
+        j += 1
 
-    return mediaX, dpX
+    mediaY = int(np.mean(coordY))
+    dpY = int(np.std(coordY))
 
+    return mediaX, dpX, mediaY,dpY
+
+def mediaFinal(vet):
+
+    cdX = []
+    cdY = []
+    j = 0
+    while j < vet.__len__():
+        cdX.append(vet[j][0])
+        j+=1
+
+    mediaX = int(np.mean(cdX))
+                 
+    j=0
+
+    while j < vet.__len__():
+        cdY.append(vet[j][1])
+        j+=1
+    mediaY = int(np.mean(cdY))
+
+    return mediaX ,mediaY
 
 i = 0
 j= 0
@@ -307,39 +332,24 @@ j= 0
 print("aquiii" , eyes[0])
 for i in range(0,9):
 
-    media, dp = valores(eyes[i])
-    print("media e desvio padrao ", media, dp)
-    max = media + (dp * 2)
-    min = media - (dp * 2)
-    j=0
+    mediax, dpx, mediay,dpy = valores(eyes[i])
+    maxX = mediax + (dpx * 1)
+    minX = mediax - (dpx * 1)
+    maxY = mediay + (dpy * 1)
+    minY = mediay - (dpy * 1)
+    #print("max :", max, " min : ", min)
+    j = 0
     for indice in eyes[i]:
         x = int(eyes[i][j][0])
-        print("valor de x")
-        if ( x < min or x > max):
-            print("removi --> ",eyes[i][j])
+        y = int(eyes[i][j][1])
+
+        if ((x < minX or x > maxX) or (y < minY or y > maxY)):
             eyes[i].pop(j)
-            print("item removido")
-            print("agora o vetor é : \n", eyes[i])
+
         j+=1
-        indice +=1
-
-    i += 1
+    print("tamando do vetor ", i , " é --> ", eyes[i].__len__())
 
 
-
-
-
-#print("VALOR DE X  ->",coordX)
-#print("VALOR DE Y  ->", coordY)
-
-#mediaX = int(np.mean(coordX))
-#mediaY = int(np.mean(coordY))
-
-#print("Media das coordenadas - > X: " , mediaX, ", Y: ", mediaY )
-
-#dpX = int(np.std(coordX))
-#dpY = int(np.std(coordY))
-
-#print("Desvio padrão das coordenadas - > X: " , dpX, ", Y: ", dpY )
-
-
+for i in range(0,9):
+    x,y = mediaFinal(eyes[i])
+    print("\n",x,y)
