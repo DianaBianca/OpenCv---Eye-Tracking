@@ -221,9 +221,7 @@ def _getPupilVector():
             if center[0] != -1 and center[1] != -1:
                 vet.append([int(center[0]), int(center[1])])
                 x += 1
-                #print("i",x)
         if (x == 60):
-            #print("aqui AAAAAAAAAAAAAAAAAAAAAAA")
             carregado = False
             x = 0
             return vet
@@ -285,6 +283,7 @@ targets = np.array(np.asarray(targetscoord))
 
 coordX = []
 
+#recebe um indice do vetor e retorna a media e o desvio padrão dos valores x e y
 def valores(vet):
     j = 0
 
@@ -306,19 +305,17 @@ def valores(vet):
 
     return mediaX, dpX, mediaY,dpY
 
+#recebe um indice do  vetor olhos (de 0 a 8) já com os outliners removidos e retorna a media dos valores x e y
 def mediaFinal(vet):
-
     cdX = []
     cdY = []
     j = 0
     while j < vet.__len__():
         cdX.append(vet[j][0])
         j+=1
-
     mediaX = int(np.mean(cdX))
-                 
-    j=0
 
+    j=0
     while j < vet.__len__():
         cdY.append(vet[j][1])
         j+=1
@@ -326,10 +323,7 @@ def mediaFinal(vet):
 
     return mediaX ,mediaY
 
-i = 0
-j= 0
-
-print("aquiii" , eyes[0])
+#recebe a media e desvio padrao de x e y de cada um dos 9 indices e elimina os outliners
 for i in range(0,9):
 
     mediax, dpx, mediay,dpy = valores(eyes[i])
@@ -337,7 +331,7 @@ for i in range(0,9):
     minX = mediax - (dpx * 1)
     maxY = mediay + (dpy * 1)
     minY = mediay - (dpy * 1)
-    #print("max :", max, " min : ", min)
+
     j = 0
     for indice in eyes[i]:
         x = int(eyes[i][j][0])
@@ -347,9 +341,13 @@ for i in range(0,9):
             eyes[i].pop(j)
 
         j+=1
-    print("tamando do vetor ", i , " é --> ", eyes[i].__len__())
 
-
+eyescoord = []
+#media final de todos os indices do array de olhos recebidos da função mediaFinal e transformando em um unico valor(x,y)
 for i in range(0,9):
     x,y = mediaFinal(eyes[i])
-    print("\n",x,y)
+    eyescoord.append([x,y])
+
+#transformando em array os valores da lista de coordenadas
+targetEyes = np.array(np.asarray(eyescoord))
+
