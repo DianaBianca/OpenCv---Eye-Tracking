@@ -144,21 +144,54 @@ def detectPupil(image, threshold=101, minimum=5, maximum=50):
     return ellipses, centers, bestPupilID
 ############################## FIM DETECÇÂO DE PUPILA ######################################
 
+
+#recebe um indice do vetor e retorna a media e o desvio padrão dos valores x e y
+def valores(vet):
+    j = 0
+
+    coordX=[]
+    coordY = []
+    while j < 60 :
+        coordX.append(vet[j][0])
+        j += 1
+
+    mediaX = int(np.mean(coordX))
+    dpX = int(np.std(coordX))
+    j = 0
+    while j < 60:
+        coordY.append(vet[j][1])
+        j += 1
+
+    mediaY = int(np.mean(coordY))
+    dpY = int(np.std(coordY))
+
+    return mediaX, dpX, mediaY,dpY
+
+#recebe um indice do  vetor olhos (de 0 a 8) já com os outliners removidos e retorna a media dos valores x e y
+def mediaFinal(vet):
+    cdX = []
+    cdY = []
+    j = 0
+    while j < vet.__len__():
+        cdX.append(vet[j][0])
+        j+=1
+    mediaX = int(np.mean(cdX))
+
+    j=0
+    while j < vet.__len__():
+        cdY.append(vet[j][1])
+        j+=1
+    mediaY = int(np.mean(cdY))
+    z = 1
+    return mediaX ,mediaY, z
+
+
 # Define the trackbars.
 trackbarsValues = {}
 trackbarsValues["threshold"] = 75
 trackbarsValues["minimum"] = 13
 trackbarsValues["maximum"] = 32
 # trackbarsValues["area"]  = 5
-
-# Create an OpenCV window and some trackbars.
-#cv2.namedWindow("Trackbars", cv2.WINDOW_AUTOSIZE)
-#cv2.createTrackbar("threshold", "Trackbars", 0, 255, onValuesChange)
-#cv2.createTrackbar("minimum", "Trackbars", 5, 40, onValuesChange)
-#cv2.createTrackbar("maximum", "Trackbars", 50, 100, onValuesChange)
-# cv2.createTrackbar("area",  "Trackbars",  5, 400, onValuesChange)
-
-#cv2.imshow("Trackbars", np.zeros((3, 500), np.uint8))
 
 # Create a capture video object.
 filename = "inputs/eye02.mov"
@@ -279,49 +312,7 @@ pygame.quit()
 
 #coordenadas dos targets da animação
 targets = np.array(np.asarray(targetscoord))
-#print(targets)
-
 coordX = []
-
-#recebe um indice do vetor e retorna a media e o desvio padrão dos valores x e y
-def valores(vet):
-    j = 0
-
-    coordX=[]
-    coordY = []
-    while j < 60 :
-        coordX.append(vet[j][0])
-        j += 1
-
-    mediaX = int(np.mean(coordX))
-    dpX = int(np.std(coordX))
-    j = 0
-    while j < 60:
-        coordY.append(vet[j][1])
-        j += 1
-
-    mediaY = int(np.mean(coordY))
-    dpY = int(np.std(coordY))
-
-    return mediaX, dpX, mediaY,dpY
-
-#recebe um indice do  vetor olhos (de 0 a 8) já com os outliners removidos e retorna a media dos valores x e y
-def mediaFinal(vet):
-    cdX = []
-    cdY = []
-    j = 0
-    while j < vet.__len__():
-        cdX.append(vet[j][0])
-        j+=1
-    mediaX = int(np.mean(cdX))
-
-    j=0
-    while j < vet.__len__():
-        cdY.append(vet[j][1])
-        j+=1
-    mediaY = int(np.mean(cdY))
-
-    return mediaX ,mediaY
 
 #recebe a media e desvio padrao de x e y de cada um dos 9 indices e elimina os outliners
 for i in range(0,9):
@@ -345,9 +336,43 @@ for i in range(0,9):
 eyescoord = []
 #media final de todos os indices do array de olhos recebidos da função mediaFinal e transformando em um unico valor(x,y)
 for i in range(0,9):
-    x,y = mediaFinal(eyes[i])
-    eyescoord.append([x,y])
+    x,y,z = mediaFinal(eyes[i])
+    eyescoord.append([x,y,z])
 
 #transformando em array os valores da lista de coordenadas
 targetEyes = np.array(np.asarray(eyescoord))
+print(eyescoord)
+tamanhofixo = 60  # tamanho dos targets
 
+# plt.scatter(eyes[:,0],eyes[:,1], color='blue', s=tamanhofixo)
+plt.scatter(targets[:, 0], targets[:, 1], color='red', s=tamanhofixo)
+
+equation = np.ones((9, 6))  # 6 equações e 9 alvos
+
+# pegar cada coordenada do olho e realizar a equação
+
+#eyes = np.array([[0, 0, 1],[0.25, 0, 1],[0.5, 0, 1],[0, 0.25, 1], [0.25, 0.25, 1],[0.5, 0.25, 1],[0, 0.50, 1], [0.25, 0.50, 1],[0.5, 0.50, 1]])
+
+for i, eye in enumerate(targetEyes):
+    equation[i, :-1] = [eye[0] ** 2, eye[1] ** 2, eye[0] * eye[1], eye[0], eye[1]]
+
+coeffsX = np.linalg.pinv(equation).dot(targets[:, 0])
+coeffsY = np.linalg.pinv(equation).dot(targets[:, 1])
+
+M = np.vstack((coeffsX, coeffsY))
+
+eye = np.array([0.25, 0.15])
+
+# Gaze estimation method
+gaze = M.dot([eye[0] ** 2, eye[1] ** 2, eye[0] * eye[1], eye[0], eye[1], 1])
+
+print(gaze)
+
+a = gaze[0]
+b = gaze[1]
+
+plt.scatter(a, b, color='black', s=200)
+
+plt.xlabel("x")
+plt.ylabel("y")
+plt.show()
