@@ -334,10 +334,13 @@ for i in range(0,9):
         j+=1
 
 eyescoord = []
+teste = [[[250,180],[50,80],],[[50,80],[10,80],[50,80]],[[10,80],[50,80],[10,80]],[[10,80],[50,80],[50,80]],[[50,80],[50,80],[50,80]],[[10,80],[50,80],[10,80]],[[10,80],[10,80],[50,10]],[[10,80],[50,80],[50,80]],[[50,80],[50,80],[50,80]]]
 #media final de todos os indices do array de olhos recebidos da função mediaFinal e transformando em um unico valor(x,y)
+
+#print('tamanho -->', teste.__len__())
 for i in range(0,9):
-    x,y,z = mediaFinal(eyes[i])
-    eyescoord.append([x,y,z])
+    x,y,z = mediaFinal(teste[i])
+    eyescoord.append([x,y])
 
 #transformando em array os valores da lista de coordenadas
 targetEyes = np.array(np.asarray(eyescoord))
