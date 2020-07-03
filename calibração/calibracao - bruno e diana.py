@@ -334,12 +334,12 @@ for i in range(0,9):
         j+=1
 
 eyescoord = []
-teste = [[[250,180],[50,80],],[[50,80],[10,80],[50,80]],[[10,80],[50,80],[10,80]],[[10,80],[50,80],[50,80]],[[50,80],[50,80],[50,80]],[[10,80],[50,80],[10,80]],[[10,80],[10,80],[50,10]],[[10,80],[50,80],[50,80]],[[50,80],[50,80],[50,80]]]
+#teste = [[[50,180],[50,80],],[[50,80],[10,80],[50,80]],[[50,80],[50,80],[50,80]],[[50,80],[50,80],[50,80]],[[50,80],[50,80],[50,80]],[[50,80],[50,80],[50,80]],[[50,80],[50,80],[50,80]],[[50,80],[50,80],[50,80]],[[50,80],[50,80],[50,80]]]
 #media final de todos os indices do array de olhos recebidos da função mediaFinal e transformando em um unico valor(x,y)
 
 #print('tamanho -->', teste.__len__())
 for i in range(0,9):
-    x,y,z = mediaFinal(teste[i])
+    x,y,z = mediaFinal(eyes[i])
     eyescoord.append([x,y])
 
 #transformando em array os valores da lista de coordenadas
@@ -354,9 +354,9 @@ equation = np.ones((9, 6))  # 6 equações e 9 alvos
 
 # pegar cada coordenada do olho e realizar a equação
 
-#eyes = np.array([[0, 0, 1],[0.25, 0, 1],[0.5, 0, 1],[0, 0.25, 1], [0.25, 0.25, 1],[0.5, 0.25, 1],[0, 0.50, 1], [0.25, 0.50, 1],[0.5, 0.50, 1]])
+eyes = np.array([[0, 0, 1],[0.25, 0, 1],[0.5, 0, 1],[0, 0.25, 1], [0.25, 0.25, 1],[0.5, 0.25, 1],[0, 0.50, 1], [0.25, 0.50, 1],[0.5, 0.50, 1]])
 
-for i, eye in enumerate(targetEyes):
+for i, eye in enumerate(eyes):
     equation[i, :-1] = [eye[0] ** 2, eye[1] ** 2, eye[0] * eye[1], eye[0], eye[1]]
 
 coeffsX = np.linalg.pinv(equation).dot(targets[:, 0])
@@ -370,6 +370,7 @@ eye = np.array([0.25, 0.15])
 gaze = M.dot([eye[0] ** 2, eye[1] ** 2, eye[0] * eye[1], eye[0], eye[1], 1])
 
 print(gaze)
+print(type(gaze))
 
 a = gaze[0]
 b = gaze[1]
