@@ -365,7 +365,7 @@ for i in range(0,9):
     x = int(eyescoord[i][0])
     y = int(eyescoord[i][1])
             
-    plt.scatter(x, y, color='black', s=60)
+    plt.scatter(x, y, color='black', s=50)
         
        
 
@@ -373,7 +373,7 @@ for i in range(0,9):
 #targetEyes = np.array(np.asarray(eyescoord))
 
 tamanhofixo = 60  # tamanho dos targets
-plt.scatter(targets[:, 0], targets[:, 1], color='red', s=tamanhofixo)
+plt.scatter(targets[:, 0], targets[:, 1], color='red', s=60)
 
 plt.xlabel("x")
 plt.ylabel("y")
