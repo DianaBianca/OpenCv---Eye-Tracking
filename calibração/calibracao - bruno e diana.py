@@ -353,20 +353,21 @@ for i in range(0,9):
 eyescoord = []
 #media final de todos os indices do array de olhos recebidos da função mediaFinal e transformando em um unico valor(x,y)
 #print('tamanho -->', teste.__len__())
+
 for i in range(0,9):
     x,y,z = mediaFinal(eyes[i])
     eyescoord.append([x,y])
-print('tamanho -->', eyescoord.__len__())   
+print('tamanho -->', eyescoord.__len__())
+print(eyescoord)
+
 for i in range(0,9):
-    j = 0
-    for eyes in eyescoord[i]:
-        
-        x = int(eyescoord[i][j][0])
-        y = int(eyescoord[i][j][1])
+    
+    x = int(eyescoord[i][0])
+    y = int(eyescoord[i][1])
             
-        plt.scatter(x, y, color='black', s=60)
+    plt.scatter(x, y, color='black', s=60)
         
-        j +=1 
+       
 
 #transformando em array os valores da lista de coordenadas
 #targetEyes = np.array(np.asarray(eyescoord))
