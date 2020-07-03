@@ -324,6 +324,7 @@ for i in range(0,9):
     minY = mediay - (dpy * 1)
 
     j = 0
+    
     for indice in eyes[i]:
         x = int(eyes[i][j][0])
         y = int(eyes[i][j][1])
@@ -332,50 +333,48 @@ for i in range(0,9):
             eyes[i].pop(j)
 
         j+=1
+    
 
+#criando um dicionario de cores para os 9 indices
+cores = {0:'purple',1:'green',2:'orange',3:'yellow',4:'pink',5:'blue', 6:'violet',7:'brown',8:'salmon'}
+#plotando os indices no grafico
+
+for i in range(0,9):
+    j = 0
+    for indice in eyes[i]:
+        
+        x = int(eyes[i][j][0])
+        y = int(eyes[i][j][1])
+            
+        plt.scatter(x, y, color=cores[i], s=60)
+        
+        j +=1 
+    
 eyescoord = []
-#teste = [[[50,180],[50,80],],[[50,80],[10,80],[50,80]],[[50,80],[50,80],[50,80]],[[50,80],[50,80],[50,80]],[[50,80],[50,80],[50,80]],[[50,80],[50,80],[50,80]],[[50,80],[50,80],[50,80]],[[50,80],[50,80],[50,80]],[[50,80],[50,80],[50,80]]]
 #media final de todos os indices do array de olhos recebidos da função mediaFinal e transformando em um unico valor(x,y)
-
 #print('tamanho -->', teste.__len__())
 for i in range(0,9):
-    x,y,z = mediaFinal(eyes[i])
+    x,y,z = meiaFinal(eyes[i])
     eyescoord.append([x,y])
 
 #transformando em array os valores da lista de coordenadas
 targetEyes = np.array(np.asarray(eyescoord))
-print(eyescoord)
+
+#plotando as medias
+for i in range(0,9):
+    j = 0
+    for indice in targetEyes[i]:
+        
+        x = int(targetEyes[i][j][0])
+        y = int(targetEyes[i][j][1])
+            
+        plt.scatter(x, y, color='black', s=60)
+        
+        j +=1 
+
+
 tamanhofixo = 60  # tamanho dos targets
-
-# plt.scatter(eyes[:,0],eyes[:,1], color='blue', s=tamanhofixo)
 plt.scatter(targets[:, 0], targets[:, 1], color='red', s=tamanhofixo)
-
-equation = np.ones((9, 6))  # 6 equações e 9 alvos
-
-# pegar cada coordenada do olho e realizar a equação
-
-eyes = np.array([[0, 0, 1],[0.25, 0, 1],[0.5, 0, 1],[0, 0.25, 1], [0.25, 0.25, 1],[0.5, 0.25, 1],[0, 0.50, 1], [0.25, 0.50, 1],[0.5, 0.50, 1]])
-
-for i, eye in enumerate(eyes):
-    equation[i, :-1] = [eye[0] ** 2, eye[1] ** 2, eye[0] * eye[1], eye[0], eye[1]]
-
-coeffsX = np.linalg.pinv(equation).dot(targets[:, 0])
-coeffsY = np.linalg.pinv(equation).dot(targets[:, 1])
-
-M = np.vstack((coeffsX, coeffsY))
-
-eye = np.array([0.25, 0.15])
-
-# Gaze estimation method
-gaze = M.dot([eye[0] ** 2, eye[1] ** 2, eye[0] * eye[1], eye[0], eye[1], 1])
-
-print(gaze)
-print(type(gaze))
-
-a = gaze[0]
-b = gaze[1]
-
-plt.scatter(a, b, color='black', s=200)
 
 plt.xlabel("x")
 plt.ylabel("y")
