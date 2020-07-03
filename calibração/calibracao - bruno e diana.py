@@ -356,26 +356,23 @@ eyescoord = []
 for i in range(0,9):
     x,y,z = mediaFinal(eyes[i])
     eyescoord.append([x,y])
-
-
-#plotando as medias
+print('tamanho -->', eyescoord.__len__())   
 for i in range(0,9):
     j = 0
-    for indice in eyescoord[i]:
+    for eyes in eyescoord[i]:
         
-        x = eyescoord[i][j][0]
-        y = eyescoord[i][j][1]
+        x = int(eyescoord[i][j][0])
+        y = int(eyescoord[i][j][1])
             
-        plt.scatter(x, y, color='black', s=65)
+        plt.scatter(x, y, color='black', s=60)
         
         j +=1 
 
-
 #transformando em array os valores da lista de coordenadas
-targetEyes = np.array(np.asarray(eyescoord))
+#targetEyes = np.array(np.asarray(eyescoord))
 
 tamanhofixo = 60  # tamanho dos targets
-plt.scatter(targets[:, 0], targets[:, 1], 'r^', s=tamanhofixo)
+plt.scatter(targets[:, 0], targets[:, 1], color='red', s=tamanhofixo)
 
 plt.xlabel("x")
 plt.ylabel("y")
