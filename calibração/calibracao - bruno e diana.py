@@ -308,6 +308,7 @@ for x in range(9):
     eyes.append(_getPupilVector())
     targetscoord.append([px,py])
     i+= 1;
+    
 pygame.quit()
 
 #coordenadas dos targets da animação
@@ -333,7 +334,6 @@ for i in range(0,9):
             eyes[i].pop(j)
 
         j+=1
-    
 
 #criando um dicionario de cores para os 9 indices
 cores = {0:'purple',1:'green',2:'orange',3:'yellow',4:'pink',5:'blue', 6:'violet',7:'brown',8:'salmon'}
@@ -367,8 +367,6 @@ for i in range(0,9):
             
     plt.scatter(x, y, color='black', s=50)
         
-       
-
 #transformando em array os valores da lista de coordenadas
 #targetEyes = np.array(np.asarray(eyescoord))
 
