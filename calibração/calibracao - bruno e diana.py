@@ -1,4 +1,3 @@
-
 ############################ IMPORTS ############################################
 import cv2
 import math
@@ -12,8 +11,8 @@ import time
 import os
 import matplotlib.pyplot as plt
 import threading
-
 ############################## DETECÇÂO DE PUPILA ################################
+
 class vetorEyes:
     eyes = []
 
@@ -140,17 +139,15 @@ def detectPupil(image, threshold=101, minimum=5, maximum=50):
                     pass
                     #showDetectedPupil(image, threshold, ellipses, centers, bestPupilID)
 
-    # Return the final result.
     return ellipses, centers, bestPupilID
 ############################## FIM DETECÇÂO DE PUPILA ######################################
-
-
 #recebe um indice do vetor e retorna a media e o desvio padrão dos valores x e y
 def valores(vet):
     j = 0
 
     coordX=[]
     coordY = []
+    
     while j < 60 :
         coordX.append(vet[j][0])
         j += 1
@@ -158,6 +155,7 @@ def valores(vet):
     mediaX = int(np.mean(coordX))
     dpX = int(np.std(coordX))
     j = 0
+    
     while j < 60:
         coordY.append(vet[j][1])
         j += 1
@@ -184,7 +182,6 @@ def mediaFinal(vet):
     mediaY = int(np.mean(cdY))
     z = 1
     return mediaX ,mediaY, z
-
 
 # Define the trackbars.
 trackbarsValues = {}
