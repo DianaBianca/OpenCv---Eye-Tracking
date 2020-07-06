@@ -257,6 +257,7 @@ def _getPupilVector():
             return vet
 
 class vetorTargets:
+    
     target = []
 
     def setVet(self, px, py):
@@ -278,6 +279,7 @@ done = False
 targetscoord = []
 eyes = []
 for x in range(9):
+    
     if(i == 0):
         px = 0
         py = 0
@@ -297,6 +299,7 @@ for x in range(9):
         px += nextx
     if (i == 8):
         px += nextx
+        
     screen.fill(BLACK)
     pygame.draw.rect(screen, (255, 255, 0), [px, py, 40, 40])
     pygame.display.flip()
