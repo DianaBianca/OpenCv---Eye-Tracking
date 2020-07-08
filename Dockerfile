@@ -1,6 +1,9 @@
 FROM ubuntu
+COPY IC/ /eyetracking/ 
 
-MAINTAINER Diana Rodrigues
+WORKDIR /eyetracking
+
+LABEL name="Diana Rodrigues"
 
 RUN apt-get update
 
@@ -35,3 +38,4 @@ RUN cd ~/ &&\
 
 RUN ln /dev/null /dev/raw1394
 
+CMD ["/bin/bash"]
