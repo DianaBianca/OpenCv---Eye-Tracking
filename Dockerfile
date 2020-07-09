@@ -1,11 +1,20 @@
 FROM ubuntu
-COPY IC/ /eyetracking/ 
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+COPY . . 
 
 WORKDIR /eyetracking
 
 LABEL name="Diana Rodrigues"
 
-RUN apt-get update
+RUN apt-get update && apt-get upgrade -y
+
+RUN apt-get install -y software-properties-common
+
+RUN add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main"
+
+RUN apt-get update -y
 
 RUN apt-get install -y build-essential apt-utils
 
@@ -15,10 +24,11 @@ RUN apt-get install -y cmake git libgtk2.0-dev pkg-config libavcodec-dev \
 RUN apt-get update && apt-get install -y python-dev python-numpy \
     python3 python3-pip python3-dev libtbb2 libtbb-dev \
     libjpeg-dev libjasper-dev libdc1394-22-dev \
-    python-opencv libopencv-dev libav-tools python-pycurl \
+    libopencv-dev ffmpeg python-pycurl \
     libatlas-base-dev gfortran webp qt5-default libvtk6-dev zlib1g-dev
 
 # Project Dependencies
+RUN pip3 install opencv-python
 RUN pip3 install numpy
 RUN pip3 install pygame
 RUN pip3 install matplotlib
