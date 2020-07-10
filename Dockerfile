@@ -30,13 +30,9 @@ RUN apt-get update && apt-get install -y python-dev python-numpy \
 # Project Dependencies
 RUN pip3 install opencv-python
 RUN pip3 install numpy
-RUN pip3 install pygame
+RUN pip3 install pygame==2.0.0.dev6
 RUN pip3 install matplotlib
 RUN pip3 install dlib
-
-RUN apt-get install -y python-pip
-
-RUN pip install --upgrade pip
 
 RUN cd ~/ &&\
     git clone https://github.com/Itseez/opencv.git &&\
