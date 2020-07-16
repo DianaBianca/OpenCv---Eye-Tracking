@@ -54,6 +54,24 @@ Se você estiver utilizando Windows, siga os seguintes passos:
 4. Baixe o Docker para Windows
          https://download.docker.com/win/beta/InstallDocker.msi
 
+
+UTILITÁRIO DE LINHA DE COMANDO
+
+Depois de entender a arquitetura e realizar a instalação, é chegada a hora de conhecer o utilitário de linha de comando. 
+Utilizar o docker consiste em informar a ele opções e argumentos da seguinte forma:	
+	$ docker [option] [command] [arguments]
+
+Para exibir as informações globais de sistema sobre o Docker, digite:
+	$ docker info
+
+Caso deseje ver todos os subcomandos do utilitário digite no terminal:
+	$ docker
+
+
+PARA CRIAR UMA IMAGEM COM DOCKER 
+https://blog.matheuscastiglioni.com.br/criando-minha-primeira-imagem-com-docker/
+
+
 CRIANDO E TESTANDO A IMAGEM
 
 Agora que você tem algum código-fonte e um Dockerfile, é hora de criar sua imagem e garantir que os 
