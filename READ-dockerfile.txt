@@ -1,0 +1,70 @@
+O QUE É DOCKER ?
+De forma resumida, o Docker é uma plataforma de código aberto, desenvolvido na linguagem Go e criada pelo próprio Google.
+ Por ser de alto desempenho, o software garante maior facilidade na criação e administração de ambientes isolados, 
+garantindo a rápida disponibilização de programas para o usuário final.
+
+
+BENEFICIOS
+A grande vantagem no uso da plataforma é a rapidez em que o software pode ser disponibilizado — 
+em uma frequência até 7 vezes mais rápida do que a virtualização convencional.
+
+Outro benefício oferecido pela plataforma é a possibilidade de configurar diferentes ambientes de forma rápida, 
+além de diminuir o número de incompatibilidades entre os sistemas disponíveis.
+
+ARQUITETURA DO DOCKER
+
+Os principais componentes da arquitetura envolvem:
+
+Docker para Mac, Linux e Windows – versões que permitem instalar e executar containers nos sistemas operacionais de forma isolada.
+Docker Daemon – Software que roda na máquina onde o Docker está instalado. Usuário não interage diretamente com o daemon.
+Docker Client – CLI ou REST API que aceita comandos do usuário e repassa estes comandos ao Docker daemon.
+Docker Image – É um template. Uma imagem contém todos os dados e metadados necessários para executar containers a partir de uma imagem.
+Docker Container –  Detém tudo que é necessário para uma aplicação ser executada. Cada container é criado a partir de uma imagem. Cada container é uma aplicação isolada independente.
+Docker Engine – Usado para criar imagens e containers.
+Docker Registry – Uma coleção de imagens hospedadas e rotuladas que juntas permitem a criação do sistema de arquivos de um container. Um registro pode ser público ou privado.
+Docker Hub – Este é um registro usado para hospedar e baixar diversas imagens. Pode ser visto como uma plataforma SAAS de compartilhamento e gerenciamento de imagens.
+Dockerfile –  Um arquivo texto contendo uma sintax simples para criação de novas imagens.
+Docker Compose – Usado para definir aplicações usando diversos containers.
+Docker Swarm – É uma ferramenta que permite o agrupamento (clustering) de Containers Docker.
+
+
+INSTALANDO O DOCKER
+
+Se o seu sistema operacional for linux, Ubuntu, por exemplo, você deve seguir os seguintes passos:
+
+1. Abra o terminal com o atalho Ctrl + Alt + T. Baixe as últimas atualizações do sistema.
+	$ sudo apt update && sudo apt upgrade
+
+2. Instale utilizando o repositório do Ubuntu 18.04
+	$ sudo apt install docker.io 
+
+3. Inicie o Docker
+	$ sudo systemctl start docker 
+4. Entretanto, garanta que ele seja iniciado após a reinicialização
+	$ sudo systemctl enable docker 
+
+5. Caso queira verificar a versão instalada
+	$ docker -v 
+
+Se você estiver utilizando Windows, siga os seguintes passos:
+
+1. Verifique se o suporte a virtualização está habilitado em seu computador;
+2. Seu Windows deve ser 64bits versão 1607 e build: 14393.0;
+3. Você deve habilitar o recurso do hyper-v;
+4. Baixe o Docker para Windows
+         https://download.docker.com/win/beta/InstallDocker.msi
+
+CRIANDO E TESTANDO A IMAGEM
+
+Agora que você tem algum código-fonte e um Dockerfile, é hora de criar sua imagem e garantir que os 
+contêineres lançados a partir dele funcionem conforme o esperado.
+
+Verifique se você está no diretório do projeto e execute o seguinte comando para criar sua imagem  :
+docker build .
+
+
+
+FONTE: 
+https://www.opservices.com.br/o-que-e-docker/
+https://docs.docker.com/get-started/
+https://blog.geekhunter.com.br/docker-na-pratica-como-construir-uma-aplicacao/
