@@ -2,8 +2,6 @@ FROM ubuntu
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-COPY . . 
-
 WORKDIR /eyetracking
 
 LABEL name="Diana Rodrigues"
@@ -19,7 +17,7 @@ RUN apt-get update -y
 RUN apt-get install -y build-essential apt-utils
 
 RUN apt-get install -y cmake git libgtk2.0-dev pkg-config libavcodec-dev \
-    libavformat-dev libswscale-dev
+    libavformat-dev libswscale-dev libxcb-xinerama0
 
 RUN apt-get update && apt-get install -y python-dev python-numpy \
     python3 python3-pip python3-dev libtbb2 libtbb-dev \
@@ -45,3 +43,5 @@ RUN cd ~/ &&\
 RUN ln /dev/null /dev/raw1394
 
 CMD ["/bin/bash"]
+
+COPY . ./eyetracking
