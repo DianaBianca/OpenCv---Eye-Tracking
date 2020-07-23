@@ -80,6 +80,33 @@ contêineres lançados a partir dele funcionem conforme o esperado.
 Verifique se você está no diretório do projeto e execute o seguinte comando para criar sua imagem  :
 docker build .
 
+APOS BUILDAR A IMAGEM
+para ver quais são as imagens que você possui :
+	docker images
+
+para publicar um pacote no github packages :
+
+Determine o nome da imagem e o ID para sua imagem docker usando o comando "docker images":
+	$ docker images
+	> < >
+	> REPOSITORY        TAG        IMAGE ID       CREATED      SIZE
+	> IMAGE_NAME        VERSION    IMAGE_ID       4 weeks ago  1.11MB
+
+Usando o ID da imagem do Docker, marque a imagem do Docker, substituindo OWNER pelo nome 
+da conta do usuário ou organização que possui o repositório, REPOSITORY pelo nome do 
+repositório que contém seu projeto, IMAGE_NAME com o nome do pacote ou imagem e VERSION 
+por versão do pacote no momento da construção.
+
+	$ docker tag IMAGE_ID docker.pkg.github.com/OWNER/REPOSITORY/IMAGE_NAME:VERSION
+
+Se você ainda não criou uma imagem docker para o pacote, crie a imagem, 
+substituindo OWNER pelo nome da conta de usuário ou organização que possui o repositório, 
+REPOSITORY pelo nome do repositório que contém seu projeto, IMAGE_NAME pelo nome do arquivo 
+pacote ou imagem, VERSION com versão do pacote no momento da construção e PATH para a imagem, 
+se ela não estiver no diretório de trabalho atual.
+
+	$ docker build -t docker.pkg.github.com/OWNER/REPOSITORY/IMAGE_NAME:VERSION PATH
+
 
 
 FONTE: 
