@@ -81,6 +81,7 @@ Verifique se você está no diretório do projeto e execute o seguinte comando p
 docker build .
 
 APOS BUILDAR A IMAGEM
+
 para ver quais são as imagens que você possui :
 	docker images
 
@@ -108,8 +109,22 @@ se ela não estiver no diretório de trabalho atual.
 	$ docker build -t docker.pkg.github.com/OWNER/REPOSITORY/IMAGE_NAME:VERSION PATH
 
 
+Publicando a imagem no Registro de Pacotes do GitHub:
+
+	$ docker push docker.pkg.github.com/OWNER/REPOSITORY/IMAGE_NAME:VERSION
+
+
+Se caso precise ver um exemplo de uma publicação no github packages, acesse esse link :
+
+	https://github.com/DianaBianca?package_type=Docker&tab=packages
+	https://docs.github.com/pt/packages/using-github-packages-with-your-projects-ecosystem/configuring-docker-for-use-with-github-packages
+
+
+
+
 
 FONTE: 
 https://www.opservices.com.br/o-que-e-docker/
 https://docs.docker.com/get-started/
 https://blog.geekhunter.com.br/docker-na-pratica-como-construir-uma-aplicacao/
+https://docs.github.com/pt/packages/using-github-packages-with-your-projects-ecosystem/configuring-docker-for-use-with-github-packages
